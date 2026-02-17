@@ -15,15 +15,10 @@
   --gold-dim: #8B7355;
   --gold-glow: rgba(212, 175, 55, 0.15);
   --emerald: #34D399;
-  --emerald-dim: #065F46;
   --rose: #FB7185;
-  --rose-dim: #9F1239;
-  --sky: #38BDF8;
   --violet: #A78BFA;
-  --violet-dim: #5B21B6;
   --text: #F5F5F4;
   --text-dim: #A8A29E;
-  --text-muted: #78716C;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -31,792 +26,536 @@ body {
   font-family: 'DM Sans', sans-serif;
   background: var(--bg);
   color: var(--text);
-  line-height: 1.7;
+  line-height: 1.6;
   overflow-x: hidden;
+  padding-top: 80px;
 }
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 3px; }
-
-/* NAVIGATION STYLES */
+/* NAV & DROPDOWN */
 .nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 1000;
-  background: rgba(12, 10, 9, 0.95);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--surface2);
-  padding: 16px 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+  background: rgba(12, 10, 9, 0.95); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--surface2); padding: 15px 30px;
+  display: flex; justify-content: space-between; align-items: center;
 }
-.nav-left { display: flex; align-items: center; gap: 24px; }
-.nav a.logo {
-  color: var(--gold);
-  font-family: 'Instrument Serif', serif;
-  font-size: 20px;
-  text-decoration: none;
-  letter-spacing: 0.5px;
+.logo { color: var(--gold); font-family: 'Instrument Serif', serif; font-size: 20px; text-decoration: none; }
+.dropdown { position: relative; display: inline-block; }
+.dropbtn {
+  background: var(--surface2); color: var(--gold); border: 1px solid var(--gold-dim);
+  padding: 8px 20px; border-radius: 50px; cursor: pointer; font-size: 12px; font-weight: 700; text-transform: uppercase;
+  display: flex; align-items: center; gap: 8px;
 }
-.nav a.link {
-  color: var(--text-dim);
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  transition: color 0.3s;
-  display: none;
-}
-@media (min-width: 600px) { .nav a.link { display: block; } }
-.nav a.link:hover { color: var(--text); }
-
-/* DROPDOWN STYLES */
-.month-dropdown { position: relative; }
-.dropdown-btn {
-  background: var(--surface2);
-  color: var(--gold);
-  border: 1px solid var(--gold-dim);
-  padding: 10px 20px;
-  border-radius: 50px;
-  cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.dropdown-btn:hover { background: var(--surface3); box-shadow: 0 0 15px var(--gold-glow); }
-.dropdown-btn::after { content: '▾'; font-size: 10px; }
+.dropbtn:hover { background: var(--surface3); }
 .dropdown-content {
-  display: none;
-  position: absolute;
-  right: 0;
-  top: 120%;
-  background-color: var(--surface);
-  min-width: 180px;
-  border: 1px solid var(--surface2);
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  overflow: hidden;
-  z-index: 1001;
-  max-height: 400px;
-  overflow-y: auto;
+  display: none; position: absolute; right: 0; top: 45px;
+  background-color: var(--surface); min-width: 160px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.5); border: 1px solid var(--surface2); border-radius: 8px; z-index: 10000;
+  max-height: 80vh; overflow-y: auto;
 }
-.dropdown-content.show { display: block; animation: fadeIn 0.2s ease; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 .dropdown-content a {
-  color: var(--text-dim);
-  padding: 12px 20px;
-  text-decoration: none;
-  display: block;
-  font-size: 13px;
-  font-weight: 500;
-  border-bottom: 1px solid var(--surface2);
-  transition: background 0.2s;
+  color: var(--text-dim); padding: 12px 16px; text-decoration: none; display: block; font-size: 14px; border-bottom: 1px solid var(--surface2);
 }
-.dropdown-content a:last-child { border-bottom: none; }
 .dropdown-content a:hover { background-color: var(--surface2); color: var(--gold); }
+.show { display: block; }
 
-/* HERO & SECTIONS */
-.hero {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 140px 40px 80px;
-  position: relative;
-  overflow: hidden;
-}
-.hero::before {
-  content: '';
-  position: absolute;
-  top: -200px; left: 50%;
-  transform: translateX(-50%);
-  width: 800px; height: 800px;
-  background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
-  pointer-events: none;
-}
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--surface);
-  border: 1px solid var(--gold-dim);
-  padding: 8px 20px;
-  border-radius: 100px;
-  font-size: 13px;
-  color: var(--gold);
-  margin-bottom: 40px;
-}
-.hero h1 {
-  font-family: 'Instrument Serif', serif;
-  font-size: clamp(42px, 6vw, 80px);
-  font-weight: 400;
-  line-height: 1.1;
-  max-width: 900px;
-}
+/* SECTIONS */
+.hero { text-align: center; padding: 100px 20px 60px; }
+.hero h1 { font-family: 'Instrument Serif', serif; font-size: clamp(40px, 5vw, 80px); line-height: 1.1; color: var(--text); }
 .hero h1 em { color: var(--gold); font-style: italic; }
-.hero p {
-  font-size: 18px;
-  color: var(--text-dim);
-  max-width: 600px;
-  margin-top: 28px;
-}
-.hero-year {
-  font-family: 'Instrument Serif', serif;
-  font-size: 120px;
-  color: var(--surface2);
-  position: absolute;
-  bottom: 40px; right: 60px;
-  opacity: 0.5;
-  letter-spacing: -5px;
-}
-section {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 60px 40px;
-}
-.section-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 16px;
-}
-.section-label::before {
-  content: '';
-  width: 24px;
-  height: 2px;
-  background: var(--gold);
-}
-section h2 {
-  font-family: 'Instrument Serif', serif;
-  font-size: clamp(28px, 4vw, 48px);
-  font-weight: 400;
-  line-height: 1.2;
-  margin-bottom: 20px;
-}
-section h2 em { color: var(--gold); font-style: italic; }
-section > p.intro {
-  font-size: 17px;
-  color: var(--text-dim);
-  max-width: 700px;
-  margin-bottom: 40px;
-}
-.framework {
-  background: var(--surface);
-  border: 1px solid var(--surface2);
-  border-radius: 20px;
-  padding: 40px;
-  margin: 40px 0;
-  position: relative;
-  overflow: hidden;
-}
-.framework h3 {
-  font-family: 'Instrument Serif', serif;
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-.energy-legend {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  margin: 40px 0;
-}
-.energy-card {
-  background: var(--surface);
-  border: 1px solid var(--surface2);
-  border-radius: 16px;
-  padding: 24px;
-  transition: border-color 0.3s, transform 0.3s;
-}
-.energy-card:hover { border-color: var(--surface3); transform: translateY(-2px); }
-.energy-card.high-output { border-left: 4px solid var(--emerald); }
-.energy-card.recovery { border-left: 4px solid var(--violet); }
-.energy-card .energy-type {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-.energy-card.high-output .energy-type { color: var(--emerald); }
-.energy-card.recovery .energy-type { color: var(--violet); }
-.energy-card .energy-numbers {
-  font-family: 'Instrument Serif', serif;
-  font-size: 32px;
-  color: var(--text);
-  margin-bottom: 8px;
-}
-.energy-card .energy-desc { font-size: 14px; color: var(--text-dim); }
+section { max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
 .month-header {
   background: linear-gradient(135deg, var(--surface), var(--surface2));
-  border: 1px solid var(--surface2);
-  border-radius: 20px;
-  padding: 48px;
-  margin: 60px 0 40px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+  border: 1px solid var(--surface2); border-radius: 20px; padding: 40px; margin: 40px 0; text-align: center;
 }
-.month-header::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: radial-gradient(circle at top right, var(--gold-glow), transparent 60%);
-  pointer-events: none;
-}
-.month-name {
-  font-family: 'Instrument Serif', serif;
-  font-size: clamp(36px, 5vw, 56px);
-  color: var(--gold);
-  margin-bottom: 8px;
-}
-.month-year {
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-.month-note {
-  margin-top: 20px;
-  padding: 16px 24px;
-  background: var(--surface);
-  border-radius: 12px;
-  font-size: 14px;
-  color: var(--text-dim);
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: left;
-}
-.days-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-}
+.month-name { font-family: 'Instrument Serif', serif; font-size: 48px; color: var(--gold); }
+.days-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+@media(min-width: 768px) { .days-grid { grid-template-columns: 1fr 1fr; } }
 .day-card {
-  background: var(--surface);
-  border: 1px solid var(--surface2);
-  border-radius: 16px;
-  padding: 28px;
-  position: relative;
-  transition: border-color 0.3s;
+  background: var(--surface); border: 1px solid var(--surface2); border-radius: 12px; padding: 24px;
 }
-.day-card:hover { border-color: var(--surface3); }
-.day-card.master-number { border-left: 4px solid var(--gold); }
-.day-card.high-energy { border-left: 4px solid var(--emerald); }
-.day-card.completion { border-left: 4px solid var(--rose); }
-.day-card.intuition { border-left: 4px solid var(--violet); }
-.day-card.special-day {
-  background: linear-gradient(135deg, var(--surface), rgba(212, 175, 55, 0.05));
-  border: 1px solid var(--gold-dim);
-}
-.day-card.special-day::before {
-  content: '✦ POWER DAY';
-  position: absolute;
-  top: -1px; right: 28px;
-  background: var(--gold);
-  color: var(--bg);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  padding: 4px 12px;
-  border-radius: 0 0 8px 8px;
-}
-.day-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-.day-date {
-  font-family: 'Instrument Serif', serif;
-  font-size: 24px;
-  color: var(--text);
-}
-.day-badges { display: flex; gap: 8px; flex-wrap: wrap; }
-.badge {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  padding: 4px 12px;
-  border-radius: 100px;
-  text-transform: uppercase;
-}
-.badge.lp { background: var(--gold-dim); color: var(--gold); }
-.badge.energy { background: var(--surface2); color: var(--text-dim); }
-.badge.master {
-  background: linear-gradient(135deg, var(--gold-dim), var(--gold));
-  color: var(--bg);
-}
-.day-title {
-  font-family: 'Instrument Serif', serif;
-  font-size: 20px;
-  color: var(--text);
-  margin-bottom: 12px;
-}
-.day-content { margin-bottom: 16px; }
-.day-content .today-label {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--emerald);
-  margin-bottom: 6px;
-}
-.day-content .today-text {
-  font-size: 14px;
-  color: var(--text-dim);
-  line-height: 1.7;
-}
-.day-avoid {
-  background: rgba(251, 113, 133, 0.08);
-  border: 1px solid rgba(251, 113, 133, 0.2);
-  border-radius: 10px;
-  padding: 12px 16px;
-  margin-bottom: 12px;
-}
-.day-avoid .avoid-label {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--rose);
-  margin-bottom: 4px;
-}
-.day-avoid .avoid-text { font-size: 13px; color: var(--text-dim); }
-.day-archetype {
-  font-size: 13px;
-  color: var(--text-muted);
-  font-style: italic;
-  padding-top: 12px;
-  border-top: 1px solid var(--surface2);
-}
-.day-sub-energy {
-  background: var(--surface2);
-  border-radius: 10px;
-  padding: 12px 16px;
-  margin-top: 12px;
-}
-.day-sub-energy .sub-label {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--violet);
-  margin-bottom: 4px;
-}
-.day-sub-energy .sub-text { font-size: 13px; color: var(--text-dim); }
-.quick-ref {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: 12px;
-  margin: 32px 0;
-}
-.quick-ref-item {
-  background: var(--surface);
-  border: 1px solid var(--surface2);
-  border-radius: 12px;
-  padding: 16px;
-  text-align: center;
-}
-.quick-ref-item .number {
-  font-family: 'Instrument Serif', serif;
-  font-size: 28px;
-  color: var(--gold);
-}
-.quick-ref-item .meaning { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
-.cta-box {
-  background: linear-gradient(135deg, var(--surface), rgba(212, 175, 55, 0.08));
-  border: 2px solid var(--gold-dim);
-  border-radius: 20px;
-  padding: 40px;
-  text-align: center;
-  margin: 50px 0;
-}
-.cta-box h3 {
-  font-family: 'Instrument Serif', serif;
-  font-size: 24px;
-  margin-bottom: 12px;
-}
-.cta-box p {
-  color: var(--text-dim);
-  font-size: 15px;
-  max-width: 600px;
-  margin: 0 auto 20px;
-}
-.cta-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--gold);
-  color: var(--bg);
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  padding: 14px 28px;
-  border-radius: 100px;
-  text-decoration: none;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-.cta-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.3);
-}
-.divider {
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--surface3), transparent);
-  margin: 50px 0;
-}
-.cheat-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  margin: 32px 0;
-  border-radius: 16px;
-  overflow: hidden;
-  border: 1px solid var(--surface2);
-  font-size: 13px;
-}
-.cheat-table th {
-  background: var(--surface2);
-  padding: 12px 16px;
-  text-align: left;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--gold);
-}
-.cheat-table td {
-  background: var(--surface);
-  padding: 12px 16px;
-  color: var(--text-dim);
-  border-top: 1px solid var(--surface2);
-}
-.cheat-table tr:hover td { background: var(--surface2); }
-@media (max-width: 768px) {
-  .nav { padding: 14px 20px; gap: 16px; }
-  section { padding: 40px 20px; }
-  .framework { padding: 24px; }
-  .month-header { padding: 32px 20px; }
-  .day-card { padding: 20px; }
-  .hero-year { display: none; }
-  .cta-box { padding: 28px 20px; }
-  .nav-left { gap: 12px; }
-  .nav a.link { display: none; }
-}
+.day-card.high-energy { border-left: 3px solid var(--emerald); }
+.day-card.special-day { border: 1px solid var(--gold-dim); background: linear-gradient(135deg, var(--surface), rgba(212,175,55,0.05)); }
+.day-date { font-family: 'Instrument Serif', serif; font-size: 24px; margin-bottom: 8px; color: var(--text); }
+.day-badges { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.badge { font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; background: var(--surface2); color: var(--text-dim); }
+.badge.lp { color: var(--gold); background: rgba(212,175,55,0.1); }
+.day-title { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+.today-text { font-size: 14px; color: var(--text-dim); margin-bottom: 12px; }
+.avoid-box { background: rgba(251,113,133,0.1); border: 1px solid rgba(251,113,133,0.2); padding: 10px; border-radius: 8px; font-size: 13px; color: var(--text-dim); }
+.avoid-label { color: var(--rose); font-weight: 700; font-size: 11px; text-transform: uppercase; margin-bottom: 4px; }
+.divider { height: 1px; background: var(--surface2); margin: 60px 0; }
+.cta-box { border: 1px solid var(--gold-dim); padding: 30px; text-align: center; border-radius: 16px; margin: 40px 0; background: rgba(212,175,55,0.05); }
+.cta-btn { display: inline-block; background: var(--gold); color: #000; padding: 12px 24px; border-radius: 50px; text-decoration: none; font-weight: 700; margin-top: 16px; font-size: 14px; }
 </style>
 </head>
 <body>
 
 <nav class="nav">
-  <div class="nav-left">
-    <a href="#" class="logo">☉ Numerology Playbook</a>
-    <a href="#how" class="link">How to Use</a>
-  </div>
-  
-  <div class="month-dropdown">
-    <div class="dropdown-btn" onclick="toggleDropdown()">Jump to Month</div>
-    <div id="dropdownList" class="dropdown-content">
-      <a href="#february" onclick="toggleDropdown()">February</a>
-      <a href="#march" onclick="toggleDropdown()">March</a>
-      <a href="#april" onclick="toggleDropdown()">April</a>
-      <a href="#may" onclick="toggleDropdown()">May</a>
-      <a href="#june" onclick="toggleDropdown()">June</a>
-      <a href="#july" onclick="toggleDropdown()">July</a>
-      <a href="#august" onclick="toggleDropdown()">August</a>
-      <a href="#september" onclick="toggleDropdown()">September</a>
-      <a href="#october" onclick="toggleDropdown()">October</a>
-      <a href="#november" onclick="toggleDropdown()">November</a>
-      <a href="#december" onclick="toggleDropdown()">December</a>
+  <a href="#" class="logo">Numerology Playbook</a>
+  <div class="dropdown">
+    <button onclick="toggleDrop()" class="dropbtn">Jump to Month ▾</button>
+    <div id="myDropdown" class="dropdown-content">
+      <a href="#february" onclick="toggleDrop()">February</a>
+      <a href="#march" onclick="toggleDrop()">March</a>
+      <a href="#april" onclick="toggleDrop()">April</a>
+      <a href="#may" onclick="toggleDrop()">May</a>
+      <a href="#june" onclick="toggleDrop()">June</a>
+      <a href="#july" onclick="toggleDrop()">July</a>
+      <a href="#august" onclick="toggleDrop()">August</a>
+      <a href="#september" onclick="toggleDrop()">September</a>
+      <a href="#october" onclick="toggleDrop()">October</a>
+      <a href="#november" onclick="toggleDrop()">November</a>
+      <a href="#december" onclick="toggleDrop()">December</a>
     </div>
   </div>
 </nav>
 
 <div class="hero">
-  <div class="hero-badge">⚡ Strategic Timing for Founders</div>
-  <h1>The Entrepreneur's <em>Numerology</em> Playbook</h1>
-  <p>365 days of knowing exactly what to do—and exactly what not to do. Stop guessing. Start timing your moves to energy patterns that govern momentum.</p>
-  <div class="hero-year">2026</div>
+  <div class="hero-badge">2026 Edition</div>
+  <h1>The Entrepreneur's<br><em>Numerology</em> Playbook</h1>
+  <p>Strategic Timing for Founders</p>
 </div>
 
-<section id="why">
-  <div class="section-label">The Truth</div>
-  <h2>Why This <em>Exists</em></h2>
-  <p class="intro">I wasn't planning to release this. I'm busy doing high-level chart work for founders and executives who pay well for strategic timing. But after my client Sara and dozens of others kept saying, "I need to plan my weeks with this knowledge," I realised I was doing the community a disservice by keeping it to myself.</p>
-  <div class="framework">
-    <h3>What You Bought</h3>
-    <p style="color: var(--text-dim); font-size: 15px; margin-bottom: 20px;">This isn't a PDF. It's a <strong style="color: var(--text);">decision-making filter</strong>.</p>
-    <p style="color: var(--text-dim); font-size: 14px;">Most entrepreneurs guess when to launch, pitch, hire, fire, or rest. They wonder why their "big push" flopped while a competitor's half-baked idea took off.</p>
-    <p style="color: var(--gold); font-size: 20px; font-family: 'Instrument Serif', serif; margin-top: 16px;">Timing.</p>
-    <p style="color: var(--text-dim); font-size: 14px; margin-top: 12px;">You now have visibility into energy patterns that govern momentum. Use it.</p>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<section id="edge">
-  <div class="section-label">Your Advantage</div>
-  <h2>The <em>Edge</em></h2>
-  <p class="intro">Everyone has 24 hours. The difference is allocation. Know which days amplify action and which days punish forced output.</p>
-  <div class="energy-legend">
-    <div class="energy-card high-output">
-      <div class="energy-type">🟢 High-Output Days</div>
-      <div class="energy-numbers">1, 8, 11</div>
-      <div class="energy-desc">Schedule launches, pitches, negotiations, money conversations. These days amplify action.</div>
-    </div>
-    <div class="energy-card recovery">
-      <div class="energy-type">🟣 Recovery Days</div>
-      <div class="energy-numbers">6, 7</div>
-      <div class="energy-desc">Audit, strategize, rest. These days punish forced output and reward reflection.</div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<section id="how">
-  <div class="section-label">10-Minute Setup</div>
-  <h2>How to <em>Use This</em></h2>
-  <div class="framework">
-    <h3>The 9-Day Cycle</h3>
-    <p style="color: var(--text-dim); font-size: 14px; margin-bottom: 16px;">Energy moves in 9-day cycles. Within any month, certain days share the same root vibration:</p>
-    <div class="quick-ref">
-      <div class="quick-ref-item"><div class="number">1</div><div class="meaning">1st, 10th, 19th, 28th</div></div>
-      <div class="quick-ref-item"><div class="number">2</div><div class="meaning">2nd, 11th, 20th, 29th</div></div>
-      <div class="quick-ref-item"><div class="number">3</div><div class="meaning">3rd, 12th, 21st, 30th</div></div>
-      <div class="quick-ref-item"><div class="number">4</div><div class="meaning">4th, 13th, 22nd, 31st</div></div>
-      <div class="quick-ref-item"><div class="number">5</div><div class="meaning">5th, 14th, 23rd</div></div>
-      <div class="quick-ref-item"><div class="number">6</div><div class="meaning">6th, 15th, 24th</div></div>
-      <div class="quick-ref-item"><div class="number">7</div><div class="meaning">7th, 16th, 25th</div></div>
-      <div class="quick-ref-item"><div class="number">8</div><div class="meaning">8th, 17th, 26th</div></div>
-      <div class="quick-ref-item"><div class="number">9</div><div class="meaning">9th, 18th, 27th</div></div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<section>
-  <div class="section-label">Go Deeper</div>
-  <h2>The <em>60/40</em> Rule</h2>
-  <p class="intro">This calendar shows the universal energy—what's happening for everyone. That's 60% of the equation. The other 40% is your Personal Life Path.</p>
-  <div class="cta-box">
-    <h3>Layer Your Personal Chart</h3>
-    <p>The founders seeing the biggest results are layering their Personal Life Path on top of this calendar.</p>
-    <a href="https://wa.me/447777794760" class="cta-button">WhatsApp: +44 77 7779 4760 →</a>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<section>
-  <div class="section-label">Quick Reference</div>
-  <h2>Life Path <em>Meanings</em></h2>
-  <table class="cheat-table">
-    <thead><tr><th>LP</th><th>Name</th><th>Energy</th></tr></thead>
-    <tbody>
-      <tr><td style="color: var(--gold); font-weight: 700;">13/4</td><td>The Transformer</td><td>Death & Rebirth</td></tr>
-      <tr><td style="color: var(--gold); font-weight: 700;">14/5</td><td>Temperance</td><td>Balance, moderation</td></tr>
-      <tr><td style="color: var(--gold); font-weight: 700;">15/6</td><td>The Magician</td><td>Charisma, magnetism</td></tr>
-      <tr><td style="color: var(--gold); font-weight: 700;">16/7</td><td>The Tower</td><td>Destruction, revelation</td></tr>
-      <tr><td style="color: var(--gold); font-weight: 700;">17/8</td><td>Legacy</td><td>Generational wealth</td></tr>
-      <tr><td style="color: var(--gold); font-weight: 700;">18/9</td><td>Material Conflict</td><td>Struggle resolution</td></tr>
-      <tr><td style="color: var(--gold); font-weight: 700;">19/1</td><td>The Prince</td><td>Sovereignty, authority</td></tr>
-      <tr><td style="color: var(--gold); font-weight: 700;">20/2</td><td>The Awakening</td><td>Consciousness</td></tr>
-      <tr><td style="color: var(--gold); font-weight: 700;">21/3</td><td>Success</td><td>Mastery, achievement</td></tr>
-      <tr><td style="color: var(--gold); font-weight: 700;">22/4</td><td>Master Builder</td><td>Permanent infrastructure</td></tr>
-      <tr><td style="color: var(--gold); font-weight: 700;">23/5</td><td>The Royal Star</td><td>Fortune, luck</td></tr>
-      <tr><td style="color: var(--gold); font-weight: 700;">24/6</td><td>The Peacemaker</td><td>Abundance through service</td></tr>
-      <tr><td style="color: var(--gold); font-weight: 700;">28/1</td><td>The Billionaire</td><td>Independent wealth</td></tr>
-      <tr><td style="color: var(--gold); font-weight: 700;">29/11/2</td><td>Master Intuitive</td><td>Powerful downloads</td></tr>
-    </tbody>
-  </table>
-</section>
-
-<div class="divider"></div>
-
-
 <section id="february">
-  <div class="month-header">
-    <div class="month-name">February</div>
-    <div class="month-year">2026</div>
-  </div>
+  <div class="month-header"><div class="month-name">February</div></div>
   <div class="days-grid">
-    <div class="day-card high-energy">
-      <div class="day-header">
-        <div class="day-date">1st</div>
-        <div class="day-badges">
-          <span class="badge lp">13/4 LP</span>
-          <span class="badge energy">1 Energy</span>
-        </div>
-      </div>
-      <div class="day-title">Transform And Build</div>
-      <div class="day-content">
-        <div class="today-label">Today</div>
-        <div class="today-text">The 13 is transformation + the 1 is initiation. Start February by building from the ashes. What died in January becomes the foundation for what rises now. Create from destruction.</div>
-      </div>
-      <div class="day-avoid">
-        <div class="avoid-label">Avoid</div>
-        <div class="avoid-text">Building on unstable ground. Transform first, then construct.</div>
-      </div>
-      <div class="day-archetype">The Transformer meets New Beginnings.</div>
-    </div>
-    <div class="day-card">
-      <div class="day-header">
-        <div class="day-date">2nd</div>
-        <div class="day-badges">
-          <span class="badge lp">14/5 LP</span>
-          <span class="badge energy">2 Energy</span>
-        </div>
-      </div>
-      <div class="day-title">Tempered Partnership</div>
-      <div class="day-content">
-        <div class="today-label">Today</div>
-        <div class="today-text">The 14 is temperance + the 2 is connection. Balance is everything in today's collaborations. Give and take equally. The partnership that finds equilibrium today lasts.</div>
-      </div>
-      <div class="day-avoid">
-        <div class="avoid-label">Avoid</div>
-        <div class="avoid-text">Imbalanced relationships. Calibrate the exchange. Temperance meets Connection.</div>
-      </div>
-      <div class="day-archetype">Temperance meets Connection.</div>
-    </div>
-    <div class="day-card">
-      <div class="day-content" style="text-align:center; color: var(--text-dim); padding: 40px;">
-        <em>(Insert Full February - September Daily Content Here from Previous Responses)</em>
-      </div>
-    </div>
+    <div class="day-card high-energy"><div class="day-date">1st</div><div class="day-badges"><span class="badge lp">13/4 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Transform & Build</div><div class="today-text">Start February by building from the ashes. What died in Jan becomes the foundation.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Building on unstable ground.</div></div>
+    <div class="day-card"><div class="day-date">2nd</div><div class="day-badges"><span class="badge lp">14/5 LP</span><span class="badge">2 Energy</span></div><div class="day-title">Tempered Partnership</div><div class="today-text">Balance is everything in today's collaborations. Give and take equally.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Imbalanced relationships.</div></div>
+    <div class="day-card"><div class="day-date">3rd</div><div class="day-badges"><span class="badge lp">15/6 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Magnetic Expression</div><div class="today-text">Your words are magnetic. Speak to your audience. Record content.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Silence.</div></div>
+    <div class="day-card"><div class="day-date">4th</div><div class="day-badges"><span class="badge lp">16/7 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Structured Destruction</div><div class="today-text">Demolish methodically. The system that needs to fall—take it apart with precision.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Chaotic teardowns.</div></div>
+    <div class="day-card"><div class="day-date">5th</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Legacy Transforms</div><div class="today-text">Pivot your wealth strategy. Adapt the model to match your growth.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Rigid wealth plans.</div></div>
+    <div class="day-card"><div class="day-date">6th</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Complete For The Tribe</div><div class="today-text">End the conflict affecting your people. Close the chapter for everyone's benefit.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Prolonging struggles.</div></div>
+    <div class="day-card"><div class="day-date">7th</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Sovereign Strategy</div><div class="today-text">Lead with wisdom. Strategic insight earns you the crown today.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Shallow leadership.</div></div>
+    <div class="day-card high-energy"><div class="day-date">8th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Awaken To Wealth</div><div class="today-text">The wealth path is visible today. Awareness creates affluence.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Financial autopilot.</div></div>
+    <div class="day-card"><div class="day-date">9th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Complete Mastery</div><div class="today-text">Finish the project that establishes your expertise. Authority needs evidence.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Unfinished proof.</div></div>
+    <div class="day-card high-energy"><div class="day-date">10th</div><div class="day-badges"><span class="badge lp">13/4 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Rebuild</div><div class="today-text">Lead the reconstruction. What transformed earlier—now build on it.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Mourning what died.</div></div>
+    <div class="day-card"><div class="day-date">11th</div><div class="day-badges"><span class="badge lp">14/5 LP</span><span class="badge">11/2 Energy</span></div><div class="day-title">Intuitive Balance</div><div class="today-text">Trust the intuitive hit on how to calibrate. Equilibrium downloads today.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Over-thinking balance.</div></div>
+    <div class="day-card"><div class="day-date">12th</div><div class="day-badges"><span class="badge lp">15/6 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Charm Speaks</div><div class="today-text">Your charisma flows through words. Content created today converts.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Staying silent.</div></div>
+    <div class="day-card"><div class="day-date">13th</div><div class="day-badges"><span class="badge lp">16/7 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Demolish Foundation</div><div class="today-text">The foundation itself needs to fall. Rebuild from true ground level.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Cosmetic fixes.</div></div>
+    <div class="day-card"><div class="day-date">14th</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Legacy</div><div class="today-text">Transform how you build lasting value. Love and legacy require evolution.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Stagnant approaches.</div></div>
+    <div class="day-card"><div class="day-date">15th</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">6 Energy</span></div><div class="day-title">End Family Conflict</div><div class="today-text">The conflict affecting your inner circle—end it.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Winning at expense of harmony.</div></div>
+    <div class="day-card"><div class="day-date">16th</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Lead With Depth</div><div class="today-text">Lead because you see what others don't. Depth earns the crown.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Surface leadership.</div></div>
+    <div class="day-card high-energy"><div class="day-date">17th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Conscious Wealth</div><div class="today-text">Wake up to your relationship with wealth. Consciousness unlocks affluence.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Unconscious patterns.</div></div>
+    <div class="day-card"><div class="day-date">18th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Voice Completion</div><div class="today-text">Speak the ending into existence. Announce what's complete.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Silent closures.</div></div>
+    <div class="day-card special-day"><div class="day-date">19th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Master Builder Initiates</div><div class="today-text">Start building the system that will outlast you. Make it count.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Temporary solutions.</div></div>
+    <div class="day-card"><div class="day-date">20th</div><div class="day-badges"><span class="badge lp">14/5 LP</span><span class="badge">2 Energy</span></div><div class="day-title">Balanced Partnership</div><div class="today-text">Find equilibrium in collaborations. Give and take equally.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>One-sided relationships.</div></div>
+    <div class="day-card"><div class="day-date">21st</div><div class="day-badges"><span class="badge lp">15/6 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Magnetic Voice</div><div class="today-text">Your words pull people toward you. Speak to your audience.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Quiet days.</div></div>
+    <div class="day-card special-day"><div class="day-date">22nd</div><div class="day-badges"><span class="badge lp">16/7 LP</span><span class="badge">22/4 Energy</span></div><div class="day-title">Tower Meets Builder</div><div class="today-text">Destroy and rebuild in same motion. What falls becomes material for new.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Destruction without vision.</div></div>
+    <div class="day-card"><div class="day-date">23rd</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Legacy In Motion</div><div class="today-text">Build the legacy that liberates you. Wealth without freedom is a prison.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Golden handcuffs.</div></div>
+    <div class="day-card"><div class="day-date">24th</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Resolve For Tribe</div><div class="today-text">End the struggle weighing on your people.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Personal peace at tribe expense.</div></div>
+    <div class="day-card"><div class="day-date">25th</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Sovereign Wisdom</div><div class="today-text">Rule with insight. Leadership comes from knowing more.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Authority without substance.</div></div>
+    <div class="day-card high-energy"><div class="day-date">26th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Awaken To Power</div><div class="today-text">See the power you've been ignoring. Awareness precedes abundance.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Playing small.</div></div>
+    <div class="day-card"><div class="day-date">27th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Master Ending</div><div class="today-text">End February with mastery. Complete what proves your expertise.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Incomplete proof.</div></div>
+    <div class="day-card special-day"><div class="day-date">28th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Build Foundation</div><div class="today-text">Lock in infrastructure. What you construct today carries into March.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Unfinished systems.</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="march">
+  <div class="month-header"><div class="month-name">March</div></div>
+  <div class="days-grid">
+    <div class="day-card high-energy"><div class="day-date">1st</div><div class="day-badges"><span class="badge lp">14/5 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Initiate With Balance</div><div class="today-text">Start March by finding equilibrium first, then move.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Rushing without grounding.</div></div>
+    <div class="day-card"><div class="day-date">2nd</div><div class="day-badges"><span class="badge lp">15/6 LP</span><span class="badge">2 Energy</span></div><div class="day-title">Magnetic Partnership</div><div class="today-text">Your magnetism attracts the right partner today. Lean in.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Solo plays.</div></div>
+    <div class="day-card"><div class="day-date">3rd</div><div class="day-badges"><span class="badge lp">16/7 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Speak Destruction</div><div class="today-text">Announce what you're ending. Public endings create closure.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Silent demolition.</div></div>
+    <div class="day-card"><div class="day-date">4th</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Legacy Infrastructure</div><div class="today-text">Build the wealth system that outlasts you.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Short-term money moves.</div></div>
+    <div class="day-card"><div class="day-date">5th</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Transform Conflict</div><div class="today-text">The conflict needs to transform. Evolution, not just resolution.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Same patterns.</div></div>
+    <div class="day-card"><div class="day-date">6th</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Sovereign Service</div><div class="today-text">Lead by serving. Your sovereignty comes from how well you serve.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Leadership without service.</div></div>
+    <div class="day-card"><div class="day-date">7th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Awaken To Wisdom</div><div class="today-text">The insight waiting beneath the surface—access it today.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Surface-level consciousness.</div></div>
+    <div class="day-card high-energy"><div class="day-date">8th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Master Money Message</div><div class="today-text">Communicate your value in money terms. Speak wealth.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Undervaluing your mastery.</div></div>
+    <div class="day-card special-day"><div class="day-date">9th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Complete Build</div><div class="today-text">Finish the infrastructure project. The system needs to be complete.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Leaving builds unfinished.</div></div>
+    <div class="day-card high-energy"><div class="day-date">10th</div><div class="day-badges"><span class="badge lp">14/5 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Balanced Initiative</div><div class="today-text">Lead with equilibrium. Your initiative needs balance to sustain.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Extreme action.</div></div>
+    <div class="day-card"><div class="day-date">11th</div><div class="day-badges"><span class="badge lp">15/6 LP</span><span class="badge">11/2 Energy</span></div><div class="day-title">Intuitive Magnetism</div><div class="today-text">Your charisma is guided by intuition today. Trust the pull.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Second-guessing attraction.</div></div>
+    <div class="day-card"><div class="day-date">12th</div><div class="day-badges"><span class="badge lp">16/7 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Voice The Tower</div><div class="today-text">Speak about what needed to fall. Share the lesson.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Silent rubble.</div></div>
+    <div class="day-card"><div class="day-date">13th</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Build Legacy Wealth</div><div class="today-text">Create the wealth architecture that serves your lineage.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Wealth without structure.</div></div>
+    <div class="day-card"><div class="day-date">14th</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Free From Conflict</div><div class="today-text">End the conflict caging you. Liberation comes through completion.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Prolonged struggle.</div></div>
+    <div class="day-card special-day"><div class="day-date">15th</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Prince Of The Tribe</div><div class="today-text">Lead your people with authority. Sovereign service creates loyalty.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Absent leadership.</div></div>
+    <div class="day-card"><div class="day-date">16th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Conscious Depth</div><div class="today-text">Go deeper into consciousness. Surface awareness isn't enough.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Shallow epiphanies.</div></div>
+    <div class="day-card high-energy"><div class="day-date">17th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Speak Wealth</div><div class="today-text">Articulate expertise in financial terms. Claim your value.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Free expertise.</div></div>
+    <div class="day-card special-day"><div class="day-date">18th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Master Builder Completes</div><div class="today-text">Complete the system. Lock in the structure. No loose ends.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Unfinished architecture.</div></div>
+    <div class="day-card high-energy"><div class="day-date">19th</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Initiate Fortune</div><div class="today-text">Start the lucky streak. Take the first bold action.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Passive luck.</div></div>
+    <div class="day-card"><div class="day-date">20th</div><div class="day-badges"><span class="badge lp">15/6 LP</span><span class="badge">2 Energy</span></div><div class="day-title">Magnetic Connection</div><div class="today-text">Your magnetism creates alliances. Let them in.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Pushing when pulling works.</div></div>
+    <div class="day-card"><div class="day-date">21st</div><div class="day-badges"><span class="badge lp">16/7 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Spring Equinox Tower</div><div class="today-text">Speak the end of winter's patterns. Declare the death.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Silent transitions.</div></div>
+    <div class="day-card special-day"><div class="day-date">22nd</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">22/4 Energy</span></div><div class="day-title">Legacy Meets Builder</div><div class="today-text">Build the wealth infrastructure that serves for generations.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Small money moves.</div></div>
+    <div class="day-card"><div class="day-date">23rd</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Release Struggle</div><div class="today-text">Let go of Q1's battles. Release them to enter Q2 unencumbered.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Carrying old wars.</div></div>
+    <div class="day-card"><div class="day-date">24th</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Sovereign Responsibility</div><div class="today-text">Lead your people into the new season. Your presence commands.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Absent leadership.</div></div>
+    <div class="day-card"><div class="day-date">25th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Awakened Wisdom</div><div class="today-text">Wisdom lives in presence. Experience the day with depth.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Unconscious action.</div></div>
+    <div class="day-card high-energy"><div class="day-date">26th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Mastery Monetized</div><div class="today-text">Your expertise converts today. Launch the offer.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Hiding expertise.</div></div>
+    <div class="day-card special-day"><div class="day-date">27th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Final Q1 Build</div><div class="today-text">Complete the system. Lock in the structure.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Leaving the structure incomplete.</div></div>
+    <div class="day-card high-energy"><div class="day-date">28th</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Fortune's Push</div><div class="today-text">Take the bold swing before Q1 ends. Fortune has one more gift.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Coasting.</div></div>
+    <div class="day-card"><div class="day-date">29th</div><div class="day-badges"><span class="badge lp">24/6 LP</span><span class="badge">11/2 Energy</span></div><div class="day-title">Intuitive Abundance</div><div class="today-text">The abundance opportunity downloads in silence. Trust the flash.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Over-analysis.</div></div>
+    <div class="day-card"><div class="day-date">30th</div><div class="day-badges"><span class="badge lp">16/7 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Speak Quarter's End</div><div class="today-text">Publicly declare what Q1 destroyed in you.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Silent endings.</div></div>
+    <div class="day-card"><div class="day-date">31st</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Q1 Legacy Locks In</div><div class="today-text">End Q1 by securing your wealth foundation. Protect the gains.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Loose ends.</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="april">
+  <div class="month-header"><div class="month-name">April</div></div>
+  <div class="days-grid">
+    <div class="day-card high-energy"><div class="day-date">1st</div><div class="day-badges"><span class="badge lp">15/6 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Lead The Room</div><div class="today-text">Host the client dinner or meeting. Set the agenda.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Bulldozing others.</div></div>
+    <div class="day-card"><div class="day-date">2nd</div><div class="day-badges"><span class="badge lp">16/7 LP</span><span class="badge">2 Energy</span></div><div class="day-title">Trust Gut on People</div><div class="today-text">Have the uncomfortable conversation. Your intuition sees what the P&L doesn't.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Silencing your gut.</div></div>
+    <div class="day-card"><div class="day-date">3rd</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Pitch Big Money</div><div class="today-text">Make the sales call. Your verbal conversion rate is peak.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Small talk.</div></div>
+    <div class="day-card"><div class="day-date">4th</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Close Loops</div><div class="today-text">Deep clean your CRM. Archive dead projects.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Launching new offers.</div></div>
+    <div class="day-card"><div class="day-date">5th</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Decide Alone</div><div class="today-text">Make the move only a founder can make. Consensus kills momentum.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Asking 12 opinions.</div></div>
+    <div class="day-card"><div class="day-date">6th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Mediate Tension</div><div class="today-text">Resolve the conflict simmering in your team.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Taking sides.</div></div>
+    <div class="day-card"><div class="day-date">7th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Learn Deep Teach Fast</div><div class="today-text">Study a high-level framework then teach it.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Networking calls.</div></div>
+    <div class="day-card special-day"><div class="day-date">8th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Build Wealth Infra</div><div class="today-text">Review equity structure. Allocate capital to systems.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Emotional purchases.</div></div>
+    <div class="day-card"><div class="day-date">9th</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Cut To Grow</div><div class="today-text">Fire the nightmare client. Prune to grow.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Staying in toxic situations.</div></div>
+    <div class="day-card high-energy"><div class="day-date">10th</div><div class="day-badges"><span class="badge lp">15/6 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Open New Doors</div><div class="today-text">Invite the prospect. Host a dinner.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Manipulating with charm.</div></div>
+    <div class="day-card"><div class="day-date">11th</div><div class="day-badges"><span class="badge lp">16/7 LP</span><span class="badge">11/2 Energy</span></div><div class="day-title">Receive Download</div><div class="today-text">Block your calendar. The million-dollar pivot comes today.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Packing your day.</div></div>
+    <div class="day-card"><div class="day-date">12th</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Broadcast Authority</div><div class="today-text">Publish the definitive article. Speak at the event.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Playing small.</div></div>
+    <div class="day-card"><div class="day-date">13th</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Plan The Exit</div><div class="today-text">Structure the exit clean, professional, and final.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Procrastinating.</div></div>
+    <div class="day-card"><div class="day-date">14th</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Go To War</div><div class="today-text">Launch a flash sale. Outperform last month by 20%.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Wasting warrior energy.</div></div>
+    <div class="day-card"><div class="day-date">15th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Listen Unspoken</div><div class="today-text">Ask top performers what they need. Listen.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Giving raises expecting gratitude.</div></div>
+    <div class="day-card"><div class="day-date">16th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Solve Hard Problem</div><div class="today-text">Tackle the gnarly challenge. Map solution in a doc.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Surface-level admin.</div></div>
+    <div class="day-card special-day"><div class="day-date">17th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Systematize Scale</div><div class="today-text">Upgrade CRM. Automate sales. Build the machine.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Chasing short-term spikes.</div></div>
+    <div class="day-card"><div class="day-date">18th</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Kill The Cage</div><div class="today-text">Sunset low-ticket offers. Cut to make room.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Holding dying revenue.</div></div>
+    <div class="day-card high-energy"><div class="day-date">19th</div><div class="day-badges"><span class="badge lp">24/6 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Lead With Vision</div><div class="today-text">Host Q2 vision session. Rally the team.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Ego power struggles.</div></div>
+    <div class="day-card"><div class="day-date">20th</div><div class="day-badges"><span class="badge lp">16/7 LP</span><span class="badge">2 Energy</span></div><div class="day-title">Win With Silence</div><div class="today-text">Say less. Let them fill the silence.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Oversharing.</div></div>
+    <div class="day-card"><div class="day-date">21st</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Monetize Expertise</div><div class="today-text">Raise rates. Send premium proposals.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Undercharging.</div></div>
+    <div class="day-card special-day"><div class="day-date">22nd</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">22/4 Energy</span></div><div class="day-title">Build Exit System</div><div class="today-text">Create SOP for offboarding. Build the bridge out.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Rage-quitting.</div></div>
+    <div class="day-card"><div class="day-date">23rd</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Dominate</div><div class="today-text">Competitor takedown campaign. Market domination.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Playing safe.</div></div>
+    <div class="day-card"><div class="day-date">24th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Deep Listen</div><div class="today-text">Block 2 hours with key partner. Listen without defending.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Absorbing frustration.</div></div>
+    <div class="day-card"><div class="day-date">25th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Find Unfair Advantage</div><div class="today-text">Deep dive one topic. This becomes your moat.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Scattering focus.</div></div>
+    <div class="day-card special-day"><div class="day-date">26th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Think 10 Years</div><div class="today-text">Map path to 8-figure revenue. No short-term tactics.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Vanity metrics.</div></div>
+    <div class="day-card"><div class="day-date">27th</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Outgrow Model</div><div class="today-text">Pivot from services to product. Old model won't get you there.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Staying for comfort.</div></div>
+    <div class="day-card high-energy"><div class="day-date">28th</div><div class="day-badges"><span class="badge lp">24/6 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Launch Now</div><div class="today-text">Launch the product. Announce it. Make the bold ask.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Waiting for perfect moment.</div></div>
+    <div class="day-card"><div class="day-date">29th</div><div class="day-badges"><span class="badge lp">25/7 LP</span><span class="badge">11/2 Energy</span></div><div class="day-title">Isolate For Insight</div><div class="today-text">Full isolation. Answer comes in silence.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Logic-ing your way through.</div></div>
+    <div class="day-card"><div class="day-date">30th</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Speak Target</div><div class="today-text">Write exact income goal for May. Record video stating it.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Ignoring data.</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="may">
+  <div class="month-header"><div class="month-name">May</div></div>
+  <div class="days-grid">
+    <div class="day-card high-energy"><div class="day-date">1st</div><div class="day-badges"><span class="badge lp">16/7 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Trust The Flash</div><div class="today-text">Act on the business insight. Launch the idea.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Overthinking.</div></div>
+    <div class="day-card"><div class="day-date">2nd</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">2 Energy</span></div><div class="day-title">Partner For Profit</div><div class="today-text">Reach out to strategic partner. Propose joint venture.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Bad partners.</div></div>
+    <div class="day-card"><div class="day-date">3rd</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Name The Problem</div><div class="today-text">Call out the broken system. Be the truth-teller.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Inauthentic controversy.</div></div>
+    <div class="day-card"><div class="day-date">4th</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Build Your Throne</div><div class="today-text">Document proprietary process. Build the moat.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Copying competitors.</div></div>
+    <div class="day-card"><div class="day-date">5th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Shake Up Partnership</div><div class="today-text">Introduce bold change to team dynamic.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Change for chaos sake.</div></div>
+    <div class="day-card"><div class="day-date">6th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Teach Your Tribe</div><div class="today-text">Host training. Share framework. Teaching builds loyalty.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Gatekeeping.</div></div>
+    <div class="day-card special-day"><div class="day-date">7th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Architect In Silence</div><div class="today-text">Disappear and design systems scaling 10x.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Interruptions.</div></div>
+    <div class="day-card high-energy"><div class="day-date">8th</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Bet On Freedom</div><div class="today-text">Make financial move that buys time. Spend to free yourself.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Hoarding cash.</div></div>
+    <div class="day-card"><div class="day-date">9th</div><div class="day-badges"><span class="badge lp">24/6 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Complete Chapter</div><div class="today-text">End commitment that's run course. Clean endings create space.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Dragging out goodbyes.</div></div>
+    <div class="day-card high-energy"><div class="day-date">10th</div><div class="day-badges"><span class="badge lp">16/7 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Disrupt Your Model</div><div class="today-text">Kill the offer capping growth. Can't build new protecting old.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Waiting for market to force change.</div></div>
+    <div class="day-card"><div class="day-date">11th</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">11/2 Energy</span></div><div class="day-title">Channel Vision</div><div class="today-text">Vision for next 5 years downloads today.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Dismissing intuition.</div></div>
+    <div class="day-card"><div class="day-date">12th</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">3 Energy</span></div><div class="day-title">End With Voice</div><div class="today-text">Announce what you're walking away from.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Silent exits.</div></div>
+    <div class="day-card"><div class="day-date">13th</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Claim Territory</div><div class="today-text">Define exactly what you own. Stake claim publicly.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Vague positioning.</div></div>
+    <div class="day-card"><div class="day-date">14th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Wake Up Relationship</div><div class="today-text">Shift stale relationship to alive. Propose unexpected.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Comfort conversations.</div></div>
+    <div class="day-card"><div class="day-date">15th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Speak To People</div><div class="today-text">Create content making customer feel seen. Name pain.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Generic messaging.</div></div>
+    <div class="day-card special-day"><div class="day-date">16th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Design Machine</div><div class="today-text">Build system replacing you in one area. Create process doc.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Perfectionism.</div></div>
+    <div class="day-card high-energy"><div class="day-date">17th</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Expand Aggressively</div><div class="today-text">Double down on what's working. Fortune favors bold.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Contraction.</div></div>
+    <div class="day-card"><div class="day-date">18th</div><div class="day-badges"><span class="badge lp">24/6 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Release Grace</div><div class="today-text">Let go of team/client not aligning. Do it with kindness.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Burning bridges.</div></div>
+    <div class="day-card high-energy"><div class="day-date">19th</div><div class="day-badges"><span class="badge lp">16/7 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Break Pattern</div><div class="today-text">Stop doing thing serving you no longer. Break pattern.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Defending old habits.</div></div>
+    <div class="day-card"><div class="day-date">20th</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">2 Energy</span></div><div class="day-title">Align Legacy</div><div class="today-text">Meet partner who thinks generationally. Align values.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Transactional conversations.</div></div>
+    <div class="day-card"><div class="day-date">21st</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Voice Hard Truth</div><div class="today-text">Say what needs saying to team/audience.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Softening message.</div></div>
+    <div class="day-card special-day"><div class="day-date">22nd</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">22/4 Energy</span></div><div class="day-title">Build Empire</div><div class="today-text">Most powerful building day. Launch venture. Sign deal.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Small moves.</div></div>
+    <div class="day-card"><div class="day-date">23rd</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Disrupt Together</div><div class="today-text">Collaborate on rule-breaking. Innovation at intersection.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Solo moves.</div></div>
+    <div class="day-card"><div class="day-date">24th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Lead Content</div><div class="today-text">Publish authoritative piece. Authority attracts premium.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Blending in.</div></div>
+    <div class="day-card special-day"><div class="day-date">25th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Think Builder</div><div class="today-text">Audit business infrastructure. Find gap and fill it.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Surface fixes.</div></div>
+    <div class="day-card high-energy"><div class="day-date">26th</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Move Money</div><div class="today-text">Close deal. Send invoice. Revenue delayed is lost.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Waiting for perfect timing.</div></div>
+    <div class="day-card"><div class="day-date">27th</div><div class="day-badges"><span class="badge lp">24/6 LP</span><span class="badge">9 Energy</span></div><div class="day-title">End To Attract</div><div class="today-text">Release blocking magnetism. Empty hands receive more.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Holding on.</div></div>
+    <div class="day-card high-energy"><div class="day-date">28th</div><div class="day-badges"><span class="badge lp">25/7 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Trust Act</div><div class="today-text">Insight is there. Stop researching. Do it.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Another meeting.</div></div>
+    <div class="day-card"><div class="day-date">29th</div><div class="day-badges"><span class="badge lp">26/8 LP</span><span class="badge">11/2 Energy</span></div><div class="day-title">Wealth Vision</div><div class="today-text">Next decade wealth vision downloads. Create space.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Filling silence.</div></div>
+    <div class="day-card"><div class="day-date">30th</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Speak Ending</div><div class="today-text">Name what you're releasing. Spoken endings have power.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Silent transitions.</div></div>
+    <div class="day-card"><div class="day-date">31st</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Solidify Position</div><div class="today-text">Lock in gains. Document wins. Systemize what worked.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Rushing into June.</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="june">
+  <div class="month-header"><div class="month-name">June</div></div>
+  <div class="days-grid">
+    <div class="day-card high-energy"><div class="day-date">1st</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Claim Wealth</div><div class="today-text">Launch premium offer. Raise rates. Financial ceiling rises.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Underpricing.</div></div>
+    <div class="day-card"><div class="day-date">2nd</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">2 Energy</span></div><div class="day-title">End Wrong Partner</div><div class="today-text">Exit collaboration draining you. Not every partnership deserves renewal.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Staying for loyalty.</div></div>
+    <div class="day-card"><div class="day-date">3rd</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Command Room</div><div class="today-text">Speak with authority. Lead meeting. Your words carry power.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Hedging opinions.</div></div>
+    <div class="day-card"><div class="day-date">4th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Structure Relationship</div><div class="today-text">Formalize partnership. Sign contract. Handshakes create headaches.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Assuming alignment.</div></div>
+    <div class="day-card"><div class="day-date">5th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Teach Disruptive</div><div class="today-text">Share contrarian framework. Bold content gets customers.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Recycling ideas.</div></div>
+    <div class="day-card special-day"><div class="day-date">6th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Build For People</div><div class="today-text">Create system serving community at scale. Help thousands.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Ego projects.</div></div>
+    <div class="day-card"><div class="day-date">7th</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Strategize Expansion</div><div class="today-text">Map growth in solitude. Architect it.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Reactive growth.</div></div>
+    <div class="day-card high-energy"><div class="day-date">8th</div><div class="day-badges"><span class="badge lp">24/6 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Magnetize Money</div><div class="today-text">Influence converts to cash. Host sales call.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Hiding behind content.</div></div>
+    <div class="day-card"><div class="day-date">9th</div><div class="day-badges"><span class="badge lp">25/7 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Destroy To Complete</div><div class="today-text">End what should've ended months ago. See truth, let fall.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Rescue missions.</div></div>
+    <div class="day-card high-energy"><div class="day-date">10th</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Start Legacy Asset</div><div class="today-text">Begin project that outlives you. Book, fund, brand.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Short-term plays.</div></div>
+    <div class="day-card"><div class="day-date">11th</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">11/2 Energy</span></div><div class="day-title">Intuit Exit</div><div class="today-text">Gut knows what needs to end. Block noise.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Logical justifications.</div></div>
+    <div class="day-card"><div class="day-date">12th</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Declare Dominance</div><div class="today-text">Claim position in market. Announce milestone.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>False humility.</div></div>
+    <div class="day-card"><div class="day-date">13th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Ground Vision</div><div class="today-text">Take big idea and make operational. Dreams without structure stay dreams.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>More brainstorming.</div></div>
+    <div class="day-card"><div class="day-date">14th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Disrupt With Wisdom</div><div class="today-text">Challenge status quo from mastery. You earned right to break rules.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Disruption without depth.</div></div>
+    <div class="day-card special-day"><div class="day-date">15th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Systematize Service</div><div class="today-text">Build process delivering transformation at scale.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Martyrdom.</div></div>
+    <div class="day-card"><div class="day-date">16th</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Think Before Leap</div><div class="today-text">Stress test opportunity. Research deal.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>FOMO decisions.</div></div>
+    <div class="day-card high-energy"><div class="day-date">17th</div><div class="day-badges"><span class="badge lp">24/6 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Charm To Cash</div><div class="today-text">Convert attention into revenue. Your audience is warm.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Being likable without selling.</div></div>
+    <div class="day-card"><div class="day-date">18th</div><div class="day-badges"><span class="badge lp">25/7 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Let It Collapse</div><div class="today-text">Stop propping up what's failing. Pull plug.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Rescuing dead projects.</div></div>
+    <div class="day-card high-energy"><div class="day-date">19th</div><div class="day-badges"><span class="badge lp">26/8 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Initiate Wealth</div><div class="today-text">Start revenue stream. Launch offer. Wealth begins with decision.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Planning without starting.</div></div>
+    <div class="day-card"><div class="day-date">20th</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">2 Energy</span></div><div class="day-title">Close Conflict</div><div class="today-text">Resolve tension. Clear air or clear relationship.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Surface-level truces.</div></div>
+    <div class="day-card"><div class="day-date">21st</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Speak Like King</div><div class="today-text">Voice carries authority. Set agenda.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Asking permission.</div></div>
+    <div class="day-card special-day"><div class="day-date">22nd</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">22/4 Energy</span></div><div class="day-title">Awaken Builder</div><div class="today-text">Build partnership or venture changing trajectory. Think scale.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Small thinking.</div></div>
+    <div class="day-card"><div class="day-date">23rd</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Master Pivot</div><div class="today-text">Communicate change in direction. Pivots are evolution.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Apologizing for growth.</div></div>
+    <div class="day-card special-day"><div class="day-date">24th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Build Team System</div><div class="today-text">Create infrastructure making team self-sufficient. SOPs.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Building for speed only.</div></div>
+    <div class="day-card"><div class="day-date">25th</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Analyze Opportunity</div><div class="today-text">Run numbers. Question assumptions.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Blind optimism.</div></div>
+    <div class="day-card high-energy"><div class="day-date">26th</div><div class="day-badges"><span class="badge lp">24/6 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Influence Into Income</div><div class="today-text">Convert attention into revenue. Every call move toward money.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Content without commerce.</div></div>
+    <div class="day-card"><div class="day-date">27th</div><div class="day-badges"><span class="badge lp">25/7 LP</span><span class="badge">9 Energy</span></div><div class="day-title">End Illusion</div><div class="today-text">Face truth you've avoided. See it. End it.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Denial.</div></div>
+    <div class="day-card high-energy"><div class="day-date">28th</div><div class="day-badges"><span class="badge lp">26/8 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Start Rich</div><div class="today-text">Begin Q3 planning with wealth filter. Start high.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Modest goals.</div></div>
+    <div class="day-card"><div class="day-date">29th</div><div class="day-badges"><span class="badge lp">27/9 LP</span><span class="badge">11/2 Energy</span></div><div class="day-title">Intuit Closure</div><div class="today-text">Answer to "what needs to go" comes in silence.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Filling void with noise.</div></div>
+    <div class="day-card"><div class="day-date">30th</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">3 Energy</span></div><div class="day-title">End As King</div><div class="today-text">Review June with authority. Name wins. Speak lessons.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Rushing into July.</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="july">
+  <div class="month-header"><div class="month-name">July</div></div>
+  <div class="days-grid">
+    <div class="day-card high-energy"><div class="day-date">1st</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Start By Ending</div><div class="today-text">Begin Q3 by killing what didn't work. Clear dead weight.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Carrying failure forward.</div></div>
+    <div class="day-card"><div class="day-date">2nd</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">2 Energy</span></div><div class="day-title">Lead Partnership</div><div class="today-text">Step into dominant role. Set direction.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Passive partnership.</div></div>
+    <div class="day-card"><div class="day-date">3rd</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Awaken Voice</div><div class="today-text">Say thing waking audience up. Speak truth.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Safe content.</div></div>
+    <div class="day-card"><div class="day-date">4th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Systematize Mastery</div><div class="today-text">Turn expertise into repeatable process. Document framework.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Informal knowledge.</div></div>
+    <div class="day-card special-day"><div class="day-date">5th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Build Freedom</div><div class="today-text">Create system buying back time. Automate.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Building around yourself.</div></div>
+    <div class="day-card"><div class="day-date">6th</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Expand Service</div><div class="today-text">Grow by serving better. Generosity scales.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Abandoning core audience.</div></div>
+    <div class="day-card"><div class="day-date">7th</div><div class="day-badges"><span class="badge lp">24/6 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Magnetize Silence</div><div class="today-text">Withdraw. Let reputation work. No pitching.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Chasing.</div></div>
+    <div class="day-card high-energy"><div class="day-date">8th</div><div class="day-badges"><span class="badge lp">25/7 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Destroy Block</div><div class="today-text">Demolish belief capping income. Raise number.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Comfortable targets.</div></div>
+    <div class="day-card"><div class="day-date">9th</div><div class="day-badges"><span class="badge lp">26/8 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Complete Cycle</div><div class="today-text">Close deals. Collect payments. Finish what prints cash.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Starting new before closing.</div></div>
+    <div class="day-card high-energy"><div class="day-date">10th</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Initiate Ending</div><div class="today-text">Start conversation closing chapter. Begin exit.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Waiting for right time.</div></div>
+    <div class="day-card special-day"><div class="day-date">11th</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">11/2 Energy</span></div><div class="day-title">Download Dominance</div><div class="today-text">Vision for market domination comes in silence.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Crowdsourcing strategy.</div></div>
+    <div class="day-card"><div class="day-date">12th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Speak Awakening</div><div class="today-text">Articulate shift industry needs. Be first.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Echoing others.</div></div>
+    <div class="day-card"><div class="day-date">13th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Structure Success</div><div class="today-text">Make what's working repeatable. Build playbook.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Winging it.</div></div>
+    <div class="day-card special-day"><div class="day-date">14th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Architect Escape</div><div class="today-text">Build infra freeing you from ops. Remove you from center.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Being bottleneck.</div></div>
+    <div class="day-card"><div class="day-date">15th</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Expand Impact</div><div class="today-text">Multiply reach. Launch to bigger audience.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Keeping small.</div></div>
+    <div class="day-card"><div class="day-date">16th</div><div class="day-badges"><span class="badge lp">24/6 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Attract Depth</div><div class="today-text">Create deep-dive content. Magnetize serious buyers.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Quick posts.</div></div>
+    <div class="day-card high-energy"><div class="day-date">17th</div><div class="day-badges"><span class="badge lp">25/7 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Shatter Ceiling</div><div class="today-text">Break revenue plateau. Cap is artificial.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Accepting limits.</div></div>
+    <div class="day-card"><div class="day-date">18th</div><div class="day-badges"><span class="badge lp">26/8 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Close Legacy Loop</div><div class="today-text">Finish project building long-term wealth.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Abandoning legacy work.</div></div>
+    <div class="day-card high-energy"><div class="day-date">19th</div><div class="day-badges"><span class="badge lp">27/9 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Begin Release</div><div class="today-text">Start dismantling what holds you back. Cut with wisdom.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Preservation of familiar.</div></div>
+    <div class="day-card"><div class="day-date">20th</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">2 Energy</span></div><div class="day-title">Partner Power</div><div class="today-text">Enter negotiations as prize. Make them earn access.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Chasing partnerships.</div></div>
+    <div class="day-card"><div class="day-date">21st</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Voice Vision</div><div class="today-text">Publicly name what you're changing. Speak transition.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Silent pivots.</div></div>
+    <div class="day-card special-day"><div class="day-date">22nd</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">22/4 Energy</span></div><div class="day-title">Master Build</div><div class="today-text">Most powerful creation day. Launch signature program.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Small work.</div></div>
+    <div class="day-card special-day"><div class="day-date">23rd</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Build Exit</div><div class="today-text">Create systems making biz sellable. Build like leaving.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Owner-dependence.</div></div>
+    <div class="day-card"><div class="day-date">24th</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Grow Giving</div><div class="today-text">Expand by over-delivering. Surprise clients.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Transactional relationships.</div></div>
+    <div class="day-card"><div class="day-date">25th</div><div class="day-badges"><span class="badge lp">24/6 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Serve Silence</div><div class="today-text">Let work speak. Refine how you serve.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Noise-making.</div></div>
+    <div class="day-card high-energy"><div class="day-date">26th</div><div class="day-badges"><span class="badge lp">25/7 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Wisdom Shatters</div><div class="today-text">Insight reveals limits are artificial. Raise income.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Negotiating limits.</div></div>
+    <div class="day-card"><div class="day-date">27th</div><div class="day-badges"><span class="badge lp">26/8 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Complete Wealth</div><div class="today-text">Complete open revenue loops. Money left is disrespected.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Leaving money on table.</div></div>
+    <div class="day-card high-energy"><div class="day-date">28th</div><div class="day-badges"><span class="badge lp">27/9 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Begin Purge</div><div class="today-text">Eliminate non-essential. Cut with wisdom not rage.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Slow pruning.</div></div>
+    <div class="day-card special-day"><div class="day-date">29th</div><div class="day-badges"><span class="badge lp">28/1 LP</span><span class="badge">11/2 Energy</span></div><div class="day-title">Billionaire Download</div><div class="today-text">Strategic insight changing trajectory comes today.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Crowdsourcing.</div></div>
+    <div class="day-card"><div class="day-date">30th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Speak Shift</div><div class="today-text">Publicly name what's changing. Audience needs to hear it.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Silent pivots.</div></div>
+    <div class="day-card"><div class="day-date">31st</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Lock Wins</div><div class="today-text">End July systematizing what worked. Document.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Rushing to August.</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="august">
+  <div class="month-header"><div class="month-name">August</div></div>
+  <div class="days-grid">
+    <div class="day-card high-energy special-day"><div class="day-date">1st</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Double Sovereignty</div><div class="today-text">Pure founder energy. Make decision no one else can.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Committee thinking.</div></div>
+    <div class="day-card special-day"><div class="day-date">2nd</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">2 Energy</span></div><div class="day-title">Double Connection</div><div class="today-text">Relationships are everything. Repair. Deepen. Initiate.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Solo moves.</div></div>
+    <div class="day-card special-day"><div class="day-date">3rd</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Double Expression</div><div class="today-text">Publish. Record. Speak. Content has 3x impact.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Silence.</div></div>
+    <div class="day-card special-day"><div class="day-date">4th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Double Builder</div><div class="today-text">Most powerful infrastructure day. Sign lease. Hire.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Temporary fixes.</div></div>
+    <div class="day-card special-day"><div class="day-date">5th</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Double Expansion</div><div class="today-text">Move fast. Universe saying yes. Match energy.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Hesitation.</div></div>
+    <div class="day-card special-day"><div class="day-date">6th</div><div class="day-badges"><span class="badge lp">24/6 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Double Harmony</div><div class="today-text">Clients want to buy. Partners align. Give generously.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Selfishness.</div></div>
+    <div class="day-card special-day"><div class="day-date">7th</div><div class="day-badges"><span class="badge lp">25/7 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Double Wisdom</div><div class="today-text">Truth surfaces. Strategy becomes clear in silence.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Noise.</div></div>
+    <div class="day-card high-energy special-day"><div class="day-date">8th</div><div class="day-badges"><span class="badge lp">26/8 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Double Wealth</div><div class="today-text">Most powerful money day. Close deal. Raise price.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Small money moves.</div></div>
+    <div class="day-card special-day"><div class="day-date">9th</div><div class="day-badges"><span class="badge lp">27/9 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Double Completion</div><div class="today-text">Whatever needs to finish—let it. Clean sweep.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Half-measures.</div></div>
+    <div class="day-card high-energy special-day"><div class="day-date">10th</div><div class="day-badges"><span class="badge lp">28/1 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Billionaire Freq</div><div class="today-text">Pure self-made power. Launch venture. Make bold bet.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Seeking approval.</div></div>
+    <div class="day-card intuition"><div class="day-date">11th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">11/2 Energy</span></div><div class="day-title">Awaken Channel</div><div class="today-text">Strategic download arrives in stillness. Vision changes trajectory.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Meetings/calls.</div></div>
+    <div class="day-card"><div class="day-date">12th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Teach Mastery</div><div class="today-text">Share framework. Create content establishing authority.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Hoarding knowledge.</div></div>
+    <div class="day-card special-day"><div class="day-date">13th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Build Machine</div><div class="today-text">Create system running without you. SOPs. Automations.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Being bottleneck.</div></div>
+    <div class="day-card"><div class="day-date">14th</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Chase Opportunity</div><div class="today-text">Move fast on deal. Window open. Jump.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Due diligence paralysis.</div></div>
+    <div class="day-card"><div class="day-date">15th</div><div class="day-badges"><span class="badge lp">24/6 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Serve To Attract</div><div class="today-text">Over-deliver. Surprise clients. Loyalty multiplies.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Transactional thinking.</div></div>
+    <div class="day-card"><div class="day-date">16th</div><div class="day-badges"><span class="badge lp">25/7 LP</span><span class="badge">7 Energy</span></div><div class="day-title">See Truth</div><div class="today-text">Face reality avoided. See it. Accept it. Decide.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Comfortable delusion.</div></div>
+    <div class="day-card high-energy"><div class="day-date">17th</div><div class="day-badges"><span class="badge lp">26/8 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Build Legacy</div><div class="today-text">Make money move compounding decades. Invest in asset.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Trading time for money.</div></div>
+    <div class="day-card completion"><div class="day-date">18th</div><div class="day-badges"><span class="badge lp">27/9 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Release Completely</div><div class="today-text">Let go of weighing down. Client. Project. Belief.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Clinging.</div></div>
+    <div class="day-card high-energy"><div class="day-date">19th</div><div class="day-badges"><span class="badge lp">28/1 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Lead Unapologetic</div><div class="today-text">Take charge. Set direction. Team waiting for clarity.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Consensus-seeking.</div></div>
+    <div class="day-card"><div class="day-date">20th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">2 Energy</span></div><div class="day-title">Heal Partnership</div><div class="today-text">Address tension. Have conversation. Listen deeply.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Avoidance.</div></div>
+    <div class="day-card"><div class="day-date">21st</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Speak Success</div><div class="today-text">Tell your story. Share case study. Success shared multiplies.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>False humility.</div></div>
+    <div class="day-card special-day"><div class="day-date">22nd</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">22/4 Energy</span></div><div class="day-title">Master Builder^2</div><div class="today-text">Most powerful building day. Launch company. Build monument.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Anything small.</div></div>
+    <div class="day-card"><div class="day-date">23rd</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Expand Limits</div><div class="today-text">Remove constraints. New market. Break ceiling.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Self-imposed limits.</div></div>
+    <div class="day-card"><div class="day-date">24th</div><div class="day-badges"><span class="badge lp">24/6 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Attract Tribe</div><div class="today-text">Draw people closer. Connection creates conversion.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Broadcast-only.</div></div>
+    <div class="day-card"><div class="day-date">25th</div><div class="day-badges"><span class="badge lp">25/7 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Destroy Illusion</div><div class="today-text">Shatter story told yourself. Limiting belief. End it.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Protecting ego.</div></div>
+    <div class="day-card high-energy"><div class="day-date">26th</div><div class="day-badges"><span class="badge lp">26/8 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Claim Wealth</div><div class="today-text">Ask for worth. Raise rates. Negotiate deal.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Discounting self.</div></div>
+    <div class="day-card completion"><div class="day-date">27th</div><div class="day-badges"><span class="badge lp">27/9 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Complete Cycle</div><div class="today-text">Finish everything. Close open loops. Clean slate.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Carrying baggage.</div></div>
+    <div class="day-card high-energy"><div class="day-date">28th</div><div class="day-badges"><span class="badge lp">28/1 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Initiate Authority</div><div class="today-text">Start something only you can. First-mover energy.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Waiting validation.</div></div>
+    <div class="day-card intuition"><div class="day-date">29th</div><div class="day-badges"><span class="badge lp">29/11 LP</span><span class="badge">11/2 Energy</span></div><div class="day-title">Master Intuitive^2</div><div class="today-text">Powerful download day. Vision changing decade arrives.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Logic.</div></div>
+    <div class="day-card"><div class="day-date">30th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Close Voice</div><div class="today-text">Declare what learned. Speak September into existence.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Silent transitions.</div></div>
+    <div class="day-card special-day"><div class="day-date">31st</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Lock Foundation</div><div class="today-text">Solidify build. Document. Secure.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Rushing.</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="september">
+  <div class="month-header"><div class="month-name">September</div></div>
+  <div class="days-grid">
+    <div class="day-card high-energy"><div class="day-date">1st</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Awaken Leader</div><div class="today-text">Wake up to changes needed. Lead conversation.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Seeing and staying silent.</div></div>
+    <div class="day-card"><div class="day-date">2nd</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">2 Energy</span></div><div class="day-title">Master Message</div><div class="today-text">Craft message landing with audience. Complex to simple.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Talking at people.</div></div>
+    <div class="day-card special-day"><div class="day-date">3rd</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Build Loud</div><div class="today-text">Document building process. Share progress.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Building in silence.</div></div>
+    <div class="day-card"><div class="day-date">4th</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Structure Expansion</div><div class="today-text">Growth without systems collapses. Lock in structure.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Chasing without infra.</div></div>
+    <div class="day-card"><div class="day-date">5th</div><div class="day-badges"><span class="badge lp">24/6 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Shake Service</div><div class="today-text">Disrupt how you serve. Over-deliver unexpectedly.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Same old delivery.</div></div>
+    <div class="day-card"><div class="day-date">6th</div><div class="day-badges"><span class="badge lp">25/7 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Wisdom Tribe</div><div class="today-text">Share deeper truth. Go beyond tactics.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Surface-level content.</div></div>
+    <div class="day-card"><div class="day-date">7th</div><div class="day-badges"><span class="badge lp">26/8 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Strategic Wealth</div><div class="today-text">Think about money. Model scenarios. Plan moves.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Reactive decisions.</div></div>
+    <div class="day-card high-energy"><div class="day-date">8th</div><div class="day-badges"><span class="badge lp">27/9 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Complete Profit</div><div class="today-text">Finish revenue projects. Close lingering deals.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Starting new before finishing.</div></div>
+    <div class="day-card special-day"><div class="day-date">9th</div><div class="day-badges"><span class="badge lp">28/1 LP</span><span class="badge">9 Energy</span></div><div class="day-title">End Billionaire</div><div class="today-text">End what's no longer serving wealth. Prune aggressively.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Holding dying revenue.</div></div>
+    <div class="day-card high-energy"><div class="day-date">10th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Awaken Act</div><div class="today-text">Awareness means nothing without movement. Move decisively.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Overthinking obvious.</div></div>
+    <div class="day-card intuition"><div class="day-date">11th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">11/2 Energy</span></div><div class="day-title">Channel Mastery</div><div class="today-text">Insight on communication arrives in silence.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Forcing content.</div></div>
+    <div class="day-card special-day"><div class="day-date">12th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Speak Structure</div><div class="today-text">Articulate systems. Explain process. Builds trust.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Keeping methodology secret.</div></div>
+    <div class="day-card"><div class="day-date">13th</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Ground Luck</div><div class="today-text">Opportunity knocking. Prepare systems before surge.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Hoping to figure it out.</div></div>
+    <div class="day-card"><div class="day-date">14th</div><div class="day-badges"><span class="badge lp">24/6 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Liberate Service</div><div class="today-text">Serve way freeing you and clients. Win-win scales.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Trapping service.</div></div>
+    <div class="day-card"><div class="day-date">15th</div><div class="day-badges"><span class="badge lp">25/7 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Teach Depths</div><div class="today-text">Community needs insight sat on. Teach what matters.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Dumbing down.</div></div>
+    <div class="day-card"><div class="day-date">16th</div><div class="day-badges"><span class="badge lp">26/8 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Think Director</div><div class="today-text">Step back. See whole board. Plan 3-move sequence.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Tactical busywork.</div></div>
+    <div class="day-card high-energy"><div class="day-date">17th</div><div class="day-badges"><span class="badge lp">27/9 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Finish Rich</div><div class="today-text">Close invoices. Collect payments. Money loves completion.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Leaving money on table.</div></div>
+    <div class="day-card special-day"><div class="day-date">18th</div><div class="day-badges"><span class="badge lp">28/1 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Billionaire End</div><div class="today-text">Close financial chapter. Confidence next level waiting.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Prolonged goodbyes.</div></div>
+    <div class="day-card high-energy intuition"><div class="day-date">19th</div><div class="day-badges"><span class="badge lp">29/11 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Intuition Action</div><div class="today-text">Insight clear. Path visible. Now lead.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>More contemplation.</div></div>
+    <div class="day-card"><div class="day-date">20th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">2 Energy</span></div><div class="day-title">Collaborate Mastery</div><div class="today-text">Mastery multiplies through collaboration. Reach out.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Solo plays.</div></div>
+    <div class="day-card special-day"><div class="day-date">21st</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Voice Vision</div><div class="today-text">Articulate exactly what building. Speak blueprint.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Assuming people know.</div></div>
+    <div class="day-card special-day"><div class="day-date">22nd</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">22/4 Energy</span></div><div class="day-title">Fortune Foundation</div><div class="today-text">Opportunity becoming permanent. Capture and systemize.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Treating as one-time win.</div></div>
+    <div class="day-card"><div class="day-date">23rd</div><div class="day-badges"><span class="badge lp">24/6 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Serve Freedom</div><div class="today-text">Create offer freeing you. Sustainable service.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Resentment.</div></div>
+    <div class="day-card"><div class="day-date">24th</div><div class="day-badges"><span class="badge lp">25/7 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Wisdom Family</div><div class="today-text">Share hard-earned lesson with circle. They need it.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Hoarding wisdom.</div></div>
+    <div class="day-card"><div class="day-date">25th</div><div class="day-badges"><span class="badge lp">26/8 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Strategize Wealth</div><div class="today-text">Sit with financials. See patterns. Model future.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Avoiding numbers.</div></div>
+    <div class="day-card high-energy"><div class="day-date">26th</div><div class="day-badges"><span class="badge lp">27/9 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Complete Power</div><div class="today-text">Wealth-building action needs finish. Close loop.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Almost closing.</div></div>
+    <div class="day-card completion special-day"><div class="day-date">27th</div><div class="day-badges"><span class="badge lp">28/1 LP</span><span class="badge">9 Energy</span></div><div class="day-title">End Authority</div><div class="today-text">Cut what doesn't serve next level. Prune fast.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Sentimental attachment.</div></div>
+    <div class="day-card high-energy intuition"><div class="day-date">28th</div><div class="day-badges"><span class="badge lp">29/11 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Intuition Action</div><div class="today-text">Insight clear. Now lead. Execution takes over.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>More thinking.</div></div>
+    <div class="day-card intuition"><div class="day-date">29th</div><div class="day-badges"><span class="badge lp">30/3 LP</span><span class="badge">11/2 Energy</span></div><div class="day-title">Channel Expression</div><div class="today-text">Content changing business downloads. Create from stillness.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Forcing output.</div></div>
+    <div class="day-card special-day"><div class="day-date">30th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Close Q3 Build</div><div class="today-text">End Q3 with Master Builder. Document. Lock in systems.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Rushing to Q4.</div></div>
   </div>
 </section>
 
 <div class="divider"></div>
 
 <section id="october">
-  <div class="month-header">
-    <div class="month-name">October</div>
-    <div class="month-year">2026</div>
-    <div class="month-note"><strong>Dual Energy Month:</strong> October is the 10th month. Primary Energy reduces all digits (1+0=1). Sub Energy keeps October as 10. Use Primary LP for main action, Sub Energy for additional insight.</div>
-  </div>
+  <div class="month-header"><div class="month-name">October</div></div>
   <div class="days-grid">
-    <div class="day-card high-energy">
-      <div class="day-header"><div class="day-date">1st</div><div class="day-badges"><span class="badge lp">12/3 LP</span><span class="badge energy">1 Energy</span></div></div>
-      <div class="day-title">Initiate With Voice</div>
-      <div class="day-content"><div class="today-label">Today</div><div class="today-text">The 12 is the Hanged Man—sacrifice for perspective + the 1 is initiation. Start Q4 by pausing to see clearly before you move. Speak your vision, but from a place of surrendered wisdom, not forced action.</div></div>
-      <div class="day-avoid"><div class="avoid-label">Avoid</div><div class="avoid-text">Rushing the launch. Sometimes the power move is the pause before the punch.</div></div>
-      <div class="day-archetype">The Hanged Man meets New Beginnings.</div>
-    </div>
-    <div class="day-card">
-      <div class="day-header"><div class="day-date">31st</div><div class="day-badges"><span class="badge lp">15/6 LP</span><span class="badge energy">4 Energy</span></div></div>
-      <div class="day-title">Lock In The Magnetism</div>
-      <div class="day-content"><div class="today-label">Today</div><div class="today-text">End October by systematizing your influence. The 15 is attraction + the 4 is structure. Whatever magnetic power you built this month—give it a foundation that holds.</div></div>
-      <div class="day-avoid"><div class="avoid-label">Avoid</div><div class="avoid-text">Letting charm fade. Structure sustains attraction.</div></div>
-      <div class="day-archetype">The Magician meets Foundation.</div>
-    </div>
+    <div class="day-card high-energy"><div class="day-date">1st</div><div class="day-badges"><span class="badge lp">12/3 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Initiate Voice</div><div class="today-text">Start Q4 pausing to see clearly. Speak vision from wisdom.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Rushing launch.</div></div>
+    <div class="day-card"><div class="day-date">2nd</div><div class="day-badges"><span class="badge lp">13/4 LP</span><span class="badge">2 Energy</span></div><div class="day-title">Transform Partner</div><div class="today-text">Key partnership needs to die to evolve. Transform it.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Preserving old dynamic.</div></div>
+    <div class="day-card"><div class="day-date">3rd</div><div class="day-badges"><span class="badge lp">14/5 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Speak Balance</div><div class="today-text">Articulate vision calibrated. Words land when balanced.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Over-selling.</div></div>
+    <div class="day-card"><div class="day-date">4th</div><div class="day-badges"><span class="badge lp">15/6 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Magnetize Structure</div><div class="today-text">Build system that attracts. Charm needs infrastructure.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Charisma without capture.</div></div>
+    <div class="day-card"><div class="day-date">5th</div><div class="day-badges"><span class="badge lp">16/7 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Disrupt Illusion</div><div class="today-text">Shatter what's not working. Initiate disruption.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Protecting broken.</div></div>
+    <div class="day-card"><div class="day-date">6th</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Legacy Serves</div><div class="today-text">Build asset serving community. Wealth/service compound.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Short-term grabs.</div></div>
+    <div class="day-card"><div class="day-date">7th</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Complete Depth</div><div class="today-text">End draining struggle with wisdom. Close cleanly.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Surface endings.</div></div>
+    <div class="day-card high-energy"><div class="day-date">8th</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Sovereign Wealth</div><div class="today-text">Rule financial kingdom. Make power move.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Asking permission.</div></div>
+    <div class="day-card completion"><div class="day-date">9th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Conscious End</div><div class="today-text">Aware of what must end. Act on it.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Sleeping through end.</div></div>
+    <div class="day-card high-energy"><div class="day-date">10th</div><div class="day-badges"><span class="badge lp">12/3 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Pause Lead</div><div class="today-text">Lead by seeing what others miss. Pause reveals path.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Rushing action.</div></div>
+    <div class="day-card intuition"><div class="day-date">11th</div><div class="day-badges"><span class="badge lp">13/4 LP</span><span class="badge">11/2 Energy</span></div><div class="day-title">Transform Struct</div><div class="today-text">Infra needing death reveals itself. Trust download.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Protecting systems.</div></div>
+    <div class="day-card"><div class="day-date">12th</div><div class="day-badges"><span class="badge lp">14/5 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Balanced Voice</div><div class="today-text">Speak wins calibrated. Equilibrium magnetizes.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Hyping.</div></div>
+    <div class="day-card"><div class="day-date">13th</div><div class="day-badges"><span class="badge lp">15/6 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Charm Foundatn</div><div class="today-text">Charisma converts with system behind it.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>All sizzle.</div></div>
+    <div class="day-card"><div class="day-date">14th</div><div class="day-badges"><span class="badge lp">16/7 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Tower Transfrm</div><div class="today-text">Transformation requires falling. Let Tower work.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Rebuilding dead.</div></div>
+    <div class="day-card"><div class="day-date">15th</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Wealth Serves</div><div class="today-text">Financial success serves people. Share wisdom.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Hoarding.</div></div>
+    <div class="day-card"><div class="day-date">16th</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Wise Release</div><div class="today-text">End conflict with insight. See lesson, let go.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Ending w/o learning.</div></div>
+    <div class="day-card high-energy"><div class="day-date">17th</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Prince Wealth</div><div class="today-text">Lead financial destiny. Independent judgment creates fortune.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Waiting coronation.</div></div>
+    <div class="day-card completion"><div class="day-date">18th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Conscious Comp</div><div class="today-text">Awareness is permission. Complete cycle.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Knowing w/o doing.</div></div>
+    <div class="day-card high-energy"><div class="day-date">19th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Mastery Init</div><div class="today-text">Start from expertise. Mastery is foundation.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Starting from scratch.</div></div>
+    <div class="day-card special-day"><div class="day-date">20th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">2 Energy</span></div><div class="day-title">Build Together</div><div class="today-text">Co-create infra. Two builders better than one.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Solo building.</div></div>
+    <div class="day-card"><div class="day-date">21st</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Fortune Express</div><div class="today-text">Words attract opportunity. Speak intent.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Keeping private.</div></div>
+    <div class="day-card special-day"><div class="day-date">22nd</div><div class="day-badges"><span class="badge lp">15/6 LP</span><span class="badge">22/4 Energy</span></div><div class="day-title">Magnetic Infra</div><div class="today-text">Build permanent system magnetizing opportunity.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Temporary fixes.</div></div>
+    <div class="day-card"><div class="day-date">23rd</div><div class="day-badges"><span class="badge lp">16/7 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Shatter Shift</div><div class="today-text">Destroy and pivot. What falls creates space.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Clinging rubble.</div></div>
+    <div class="day-card"><div class="day-date">24th</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Legacy Family</div><div class="today-text">Build asset people inherit. Think beyond self.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Self-centered.</div></div>
+    <div class="day-card"><div class="day-date">25th</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">7 Energy</span></div><div class="day-title">End Wisely</div><div class="today-text">End battle with strategic wisdom. See pattern.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Brute force.</div></div>
+    <div class="day-card high-energy"><div class="day-date">26th</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Sovereign Money</div><div class="today-text">Make wealth decision only you can make.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Committees.</div></div>
+    <div class="day-card completion"><div class="day-date">27th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Awaken End</div><div class="today-text">See ending clearly. Clarity + action = closure.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Prolonged awareness.</div></div>
+    <div class="day-card high-energy"><div class="day-date">28th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Lead Mastery</div><div class="today-text">Mastery qualifies leadership. Step forward.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Waiting.</div></div>
+    <div class="day-card special-day intuition"><div class="day-date">29th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">11/2 Energy</span></div><div class="day-title">Intuit Architect</div><div class="today-text">Structure downloads in silence. Blueprint intuitive.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Analytical design.</div></div>
+    <div class="day-card"><div class="day-date">30th</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Speak Fortune</div><div class="today-text">Voice attracts opportunity. Speak Q4 wins.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Quiet endings.</div></div>
+    <div class="day-card"><div class="day-date">31st</div><div class="day-badges"><span class="badge lp">15/6 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Lock Magnetism</div><div class="today-text">Systematize influence. Give it foundation.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Letting charm fade.</div></div>
   </div>
 </section>
 
 <div class="divider"></div>
 
 <section id="november">
-  <div class="month-header">
-    <div class="month-name">November</div>
-    <div class="month-year">2026</div>
-    <div class="month-note"><strong>Master Number Month:</strong> November is the 11th month—the Master Intuitive. Every day carries an intuitive undercurrent. Trust your gut more than usual.</div>
-  </div>
+  <div class="month-header"><div class="month-name">November</div></div>
   <div class="days-grid">
-    <div class="day-card high-energy">
-      <div class="day-header"><div class="day-date">1st</div><div class="day-badges"><span class="badge lp">13/4 LP</span><span class="badge energy">1 Energy</span></div></div>
-      <div class="day-title">Transform To Build</div>
-      <div class="day-content"><div class="today-label">Today</div><div class="today-text">The 13 is death and rebirth + the 1 is new beginnings. Start November by letting something die so something better can be born. Clear the ground before you break it. Transformation initiates construction.</div></div>
-      <div class="day-avoid"><div class="avoid-label">Avoid</div><div class="avoid-text">Building on top of what needs to go. Destroy first, then create.</div></div>
-      <div class="day-archetype">The Transformer meets New Beginnings.</div>
-    </div>
-    <div class="day-card">
-      <div class="day-header"><div class="day-date">30th</div><div class="day-badges"><span class="badge lp">15/6 LP</span><span class="badge energy">3 Energy</span></div></div>
-      <div class="day-title">Close With Magnetism</div>
-      <div class="day-content"><div class="today-label">Today</div><div class="today-text">End November with pure attraction. The 15 is charisma + the 3 is voice. Speak your December intentions. Your words magnetize what's coming. Declare and attract.</div></div>
-      <div class="day-avoid"><div class="avoid-label">Avoid</div><div class="avoid-text">Silent transitions. Your voice sets the next stage.</div></div>
-      <div class="day-archetype">The Magician meets Expression.</div>
-    </div>
+    <div class="day-card high-energy"><div class="day-date">1st</div><div class="day-badges"><span class="badge lp">13/4 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Transform Build</div><div class="today-text">Let something die so better can be born.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Building on old.</div></div>
+    <div class="day-card"><div class="day-date">2nd</div><div class="day-badges"><span class="badge lp">14/5 LP</span><span class="badge">2 Energy</span></div><div class="day-title">Balanced Partner</div><div class="today-text">Right collaboration requires equilibrium.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>One-sided.</div></div>
+    <div class="day-card"><div class="day-date">3rd</div><div class="day-badges"><span class="badge lp">15/6 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Magnetic Expr</div><div class="today-text">Words magnetic. Record content. Speak.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Silence.</div></div>
+    <div class="day-card"><div class="day-date">4th</div><div class="day-badges"><span class="badge lp">16/7 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Struct Destruct</div><div class="today-text">Demolish methodically. Clean rebuilding.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Chaotic teardown.</div></div>
+    <div class="day-card"><div class="day-date">5th</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Legacy Transfrm</div><div class="today-text">Pivot wealth strategy. Adapt model to growth.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Rigid plans.</div></div>
+    <div class="day-card"><div class="day-date">6th</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Complete Tribe</div><div class="today-text">End conflict affecting people. Close chapter.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Prolonging.</div></div>
+    <div class="day-card"><div class="day-date">7th</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Sovereign Strat</div><div class="today-text">Lead with wisdom. Strategic insight earns crown.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Shallow leadership.</div></div>
+    <div class="day-card high-energy"><div class="day-date">8th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Awaken Wealth</div><div class="today-text">See opportunity blind to. Awareness creates affluence.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Autopilot.</div></div>
+    <div class="day-card completion"><div class="day-date">9th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Complete Mastery</div><div class="today-text">Finish project establishing expertise.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Unfinished proof.</div></div>
+    <div class="day-card high-energy"><div class="day-date">10th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Build Empire</div><div class="today-text">Lead construction. Vision needs infrastructure.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Delegation w/o direction.</div></div>
+    <div class="day-card intuition"><div class="day-date">11th</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">11/2 Energy</span></div><div class="day-title">Fortune Dwnld</div><div class="today-text">Opportunity arrives as intuitive hit. Trust flash.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Analyzing.</div></div>
+    <div class="day-card"><div class="day-date">12th</div><div class="day-badges"><span class="badge lp">15/6 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Charm Speaks</div><div class="today-text">Charisma flows through words. Verbal influence peak.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Writing only.</div></div>
+    <div class="day-card"><div class="day-date">13th</div><div class="day-badges"><span class="badge lp">16/7 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Demolish Fndtn</div><div class="today-text">Foundation itself needs fall. Rebuild true ground.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Cosmetic fixes.</div></div>
+    <div class="day-card"><div class="day-date">14th</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Wealth Pivots</div><div class="today-text">Wealth strategy needs pivot. Adapt or stagnate.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Loyalty to old.</div></div>
+    <div class="day-card"><div class="day-date">15th</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">6 Energy</span></div><div class="day-title">End Conflict</div><div class="today-text">Conflict affecting inner circle ends. Peace.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Winning over harmony.</div></div>
+    <div class="day-card"><div class="day-date">16th</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Lead Depth</div><div class="today-text">Authority comes from insight. Depth earns crown.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Surface lead.</div></div>
+    <div class="day-card high-energy"><div class="day-date">17th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Conscious Wealth</div><div class="today-text">Wake up to relationship with wealth. Unlock affluence.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Unconscious patterns.</div></div>
+    <div class="day-card completion"><div class="day-date">18th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Voice Complete</div><div class="today-text">Speak ending into existence. Voice finalizes.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Silent closures.</div></div>
+    <div class="day-card high-energy"><div class="day-date">19th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Init Infra</div><div class="today-text">Start building system outlasting you. Make count.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Temporary solutions.</div></div>
+    <div class="day-card"><div class="day-date">20th</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">2 Energy</span></div><div class="day-title">Lucky Partner</div><div class="today-text">Partner brings luck. Collaboration pays off.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Going solo.</div></div>
+    <div class="day-card"><div class="day-date">21st</div><div class="day-badges"><span class="badge lp">15/6 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Magnetic Voice</div><div class="today-text">Words pull people toward you. Magnetize tribe.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Quiet.</div></div>
+    <div class="day-card special-day"><div class="day-date">22nd</div><div class="day-badges"><span class="badge lp">16/7 LP</span><span class="badge">22/4 Energy</span></div><div class="day-title">Tower Builder</div><div class="today-text">Rare alignment. Destroy and rebuild same motion.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Destruction w/o vision.</div></div>
+    <div class="day-card"><div class="day-date">23rd</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Legacy Motion</div><div class="today-text">Build legacy that liberates. Create free assets.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Golden handcuffs.</div></div>
+    <div class="day-card"><div class="day-date">24th</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Resolve Tribe</div><div class="today-text">End struggle weighing people. Collective relief.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Personal peace over tribe.</div></div>
+    <div class="day-card"><div class="day-date">25th</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Sovereign Wisdom</div><div class="today-text">Rule with insight. Earn throne through wisdom.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Authority w/o substance.</div></div>
+    <div class="day-card high-energy"><div class="day-date">26th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Awaken Power</div><div class="today-text">See power ignored. Awareness precedes abundance.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Playing small.</div></div>
+    <div class="day-card completion"><div class="day-date">27th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Master Ending</div><div class="today-text">End Nov with mastery. Finish work establishing authority.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Incomplete proof.</div></div>
+    <div class="day-card high-energy"><div class="day-date">28th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Build Authority</div><div class="today-text">Lead construction of permanent. Build it now.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Building by committee.</div></div>
+    <div class="day-card intuition"><div class="day-date">29th</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">11/2 Energy</span></div><div class="day-title">Intuitive Luck</div><div class="today-text">Opportunity download as flash. Trust it.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Second-guessing.</div></div>
+    <div class="day-card"><div class="day-date">30th</div><div class="day-badges"><span class="badge lp">15/6 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Close Magnetism</div><div class="today-text">End Nov pure attraction. Speak Dec intentions.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Silent transitions.</div></div>
   </div>
 </section>
 
 <div class="divider"></div>
 
 <section id="december">
-  <div class="month-header">
-    <div class="month-name">December</div>
-    <div class="month-year">2026</div>
-    <div class="month-note"><strong>Dual Energy Month:</strong> December is the 12th month. Primary Energy reduces (1+2=3). Sub Energy keeps December as 12. The 12 demands completion—finish what you started.</div>
-  </div>
+  <div class="month-header"><div class="month-name">December</div></div>
   <div class="days-grid">
-    <div class="day-card high-energy">
-      <div class="day-header"><div class="day-date">1st</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge energy">1 Energy</span></div></div>
-      <div class="day-title">Fortune Initiates</div>
-      <div class="day-content"><div class="today-label">Today</div><div class="today-text">The 23 is luck + the 1 is new beginnings. Start December by chasing the opportunity. The fortune is available—move first. Q4's final sprint begins with a lucky break.</div></div>
-      <div class="day-avoid"><div class="avoid-label">Avoid</div><div class="avoid-text">Waiting for permission. Fortune favors the first mover.</div></div>
-      <div class="day-archetype">The Royal Star meets New Beginnings.</div>
-    </div>
-    <div class="day-card">
-      <div class="day-header"><div class="day-date">31st</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge energy">4 Energy</span></div></div>
-      <div class="day-title">Legacy Locks In</div>
-      <div class="day-content"><div class="today-label">Today</div><div class="today-text">End 2026 by securing your wealth foundation. The 17 is generational money + the 4 is structure. Whatever you built this year—lock it in. Protect the gains. Enter 2027 with your legacy secured.</div></div>
-      <div class="day-avoid"><div class="avoid-label">Avoid</div><div class="avoid-text">Loose ends on legacy. Secure everything.</div></div>
-      <div class="day-archetype">Legacy meets Foundation.</div>
-    </div>
+    <div class="day-card high-energy"><div class="day-date">1st</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Fortune Initiates</div><div class="today-text">Start Dec chasing opportunity. Fortune available.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Waiting permission.</div></div>
+    <div class="day-card"><div class="day-date">2nd</div><div class="day-badges"><span class="badge lp">24/6 LP</span><span class="badge">2 Energy</span></div><div class="day-title">Abundant Partner</div><div class="today-text">Partnership creates wealth. Collaborate on holiday push.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Solo closing.</div></div>
+    <div class="day-card"><div class="day-date">3rd</div><div class="day-badges"><span class="badge lp">16/7 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Speak Destruction</div><div class="today-text">Announce ending. Speak destruction into existence.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Silent demolition.</div></div>
+    <div class="day-card"><div class="day-date">4th</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Legacy Infra</div><div class="today-text">Build wealth system outlasting you. Compound decades.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Short-term moves.</div></div>
+    <div class="day-card"><div class="day-date">5th</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Transform Conflict</div><div class="today-text">Conflict needs to transform. Evolution not just resolution.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Same patterns.</div></div>
+    <div class="day-card"><div class="day-date">6th</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Sovereign Service</div><div class="today-text">Lead by serving. Sovereignty comes from service.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Leadership w/o service.</div></div>
+    <div class="day-card"><div class="day-date">7th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Awaken Wisdom</div><div class="today-text">Wake up to deeper truth. Insight access today.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Surface consciousness.</div></div>
+    <div class="day-card high-energy"><div class="day-date">8th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Master Money Msg</div><div class="today-text">Communicate value in money terms. Speak wealth.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Undervaluing.</div></div>
+    <div class="day-card special-day"><div class="day-date">9th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Complete Build</div><div class="today-text">Finish infrastructure project. System must complete.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Unfinished builds.</div></div>
+    <div class="day-card high-energy"><div class="day-date">10th</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Luck Leads</div><div class="today-text">Lead with luck. Take risk positioning for win.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Playing safe.</div></div>
+    <div class="day-card intuition"><div class="day-date">11th</div><div class="day-badges"><span class="badge lp">24/6 LP</span><span class="badge">11/2 Energy</span></div><div class="day-title">Intuitive Abund</div><div class="today-text">Path to abundance downloads in silence. Trust gut.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Logic over intuition.</div></div>
+    <div class="day-card"><div class="day-date">12th</div><div class="day-badges"><span class="badge lp">16/7 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Voice Tower</div><div class="today-text">Speak about what needed to fall. Share lesson.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Silent rubble.</div></div>
+    <div class="day-card"><div class="day-date">13th</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Build Legacy</div><div class="today-text">Create wealth architecture serving lineage.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Wealth w/o structure.</div></div>
+    <div class="day-card"><div class="day-date">14th</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Free Conflict</div><div class="today-text">End conflict caging you. Liberation via completion.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Prolonged struggle.</div></div>
+    <div class="day-card special-day"><div class="day-date">15th</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Prince of Tribe</div><div class="today-text">Lead people into celebration. Sovereign creates joy.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Absent leadership.</div></div>
+    <div class="day-card"><div class="day-date">16th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Conscious Depth</div><div class="today-text">Be fully present. Gift is consciousness.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Unconscious celebration.</div></div>
+    <div class="day-card high-energy"><div class="day-date">17th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Boxing Mastery</div><div class="today-text">Monetize post-holiday momentum. Expertise converts.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Hibernation.</div></div>
+    <div class="day-card special-day"><div class="day-date">18th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Final Build</div><div class="today-text">Last major build of 2026. Lock in structure.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Incomplete structure.</div></div>
+    <div class="day-card high-energy"><div class="day-date">19th</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Fortune Final</div><div class="today-text">Take bold swing before year ends. Fortune has gift.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Coasting.</div></div>
+    <div class="day-card intuition"><div class="day-date">20th</div><div class="day-badges"><span class="badge lp">24/6 LP</span><span class="badge">2 Energy</span></div><div class="day-title">Abundant Partner</div><div class="today-text">Partnership creates wealth. Collaborate for holiday.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Solo closing.</div></div>
+    <div class="day-card"><div class="day-date">21st</div><div class="day-badges"><span class="badge lp">16/7 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Solstice Tower</div><div class="today-text">Speak end of darkest patterns. Declare death.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Silent transitions.</div></div>
+    <div class="day-card special-day"><div class="day-date">22nd</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">22/4 Energy</span></div><div class="day-title">Legacy Builder</div><div class="today-text">Rare alignment. Build infrastructure for generations.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Small moves.</div></div>
+    <div class="day-card"><div class="day-date">23rd</div><div class="day-badges"><span class="badge lp">18/9 LP</span><span class="badge">5 Energy</span></div><div class="day-title">Release Struggle</div><div class="today-text">Let go of year's battles. Struggles of 2026 end.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Carrying old wars.</div></div>
+    <div class="day-card special-day"><div class="day-date">24th</div><div class="day-badges"><span class="badge lp">19/1 LP</span><span class="badge">6 Energy</span></div><div class="day-title">Sovereign Eve</div><div class="today-text">Lead people into celebration. Create joy.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Absent leadership.</div></div>
+    <div class="day-card"><div class="day-date">25th</div><div class="day-badges"><span class="badge lp">20/2 LP</span><span class="badge">7 Energy</span></div><div class="day-title">Conscious Xmas</div><div class="today-text">Be fully present. Gift is consciousness.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Unconscious celebration.</div></div>
+    <div class="day-card high-energy"><div class="day-date">26th</div><div class="day-badges"><span class="badge lp">21/3 LP</span><span class="badge">8 Energy</span></div><div class="day-title">Boxing Mastery</div><div class="today-text">Monetize momentum. Make the pitch.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Hibernation.</div></div>
+    <div class="day-card special-day"><div class="day-date">27th</div><div class="day-badges"><span class="badge lp">22/4 LP</span><span class="badge">9 Energy</span></div><div class="day-title">Final Build</div><div class="today-text">Last major build. Lock in structure for 2027.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Incomplete structure.</div></div>
+    <div class="day-card high-energy"><div class="day-date">28th</div><div class="day-badges"><span class="badge lp">23/5 LP</span><span class="badge">1 Energy</span></div><div class="day-title">Final Push</div><div class="today-text">Take bold swing. Fortune favors move.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Coasting.</div></div>
+    <div class="day-card intuition"><div class="day-date">29th</div><div class="day-badges"><span class="badge lp">24/6 LP</span><span class="badge">11/2 Energy</span></div><div class="day-title">Intuitive Abund</div><div class="today-text">Abundance opportunity downloads. Trust flash.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Over-analysis.</div></div>
+    <div class="day-card"><div class="day-date">30th</div><div class="day-badges"><span class="badge lp">16/7 LP</span><span class="badge">3 Energy</span></div><div class="day-title">Speak Destruction</div><div class="today-text">Publicly declare what 2026 destroyed. Name it.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Silent endings.</div></div>
+    <div class="day-card"><div class="day-date">31st</div><div class="day-badges"><span class="badge lp">17/8 LP</span><span class="badge">4 Energy</span></div><div class="day-title">Legacy Locks</div><div class="today-text">End 2026 securing foundation. Lock in systems.</div><div class="avoid-box"><div class="avoid-label">Avoid</div>Loose ends.</div></div>
   </div>
 </section>
 
-<div class="divider"></div>
-
-<section id="book">
-  <div class="section-label">Your Next Level</div>
-  <h2>Go From <em>60%</em> to <em>100%</em></h2>
-  <p class="intro">The founders seeing the biggest results are layering their Personal Life Path on top of this calendar. Stop navigating alone.</p>
-  <div class="framework" style="border: 2px solid var(--gold-dim); text-align: center;">
-    <h3>1:1 Strategy Consultation</h3>
-    <p style="color: var(--text-dim); font-size: 15px; margin-bottom: 20px;">Your chart. Your business. Your timing. One focused session.</p>
-    <a href="https://wa.me/447777794760" class="cta-button" style="font-size: 15px; padding: 18px 36px;">WhatsApp: +44 77 7779 4760 →</a>
-    <p style="color: var(--text-muted); font-size: 11px; margin-top: 16px; letter-spacing: 1px;">SERIOUS FOUNDERS ONLY</p>
-  </div>
-</section>
-
-<div style="height: 80px;"></div>
+<div style="height: 100px;"></div>
 
 <script>
-  function toggleDropdown() {
-    var dropdown = document.getElementById("dropdownList");
-    dropdown.classList.toggle("show");
+  function toggleDrop() {
+    var dropdown = document.getElementById("myDropdown");
+    if (dropdown.style.display === "block") {
+      dropdown.style.display = "none";
+    } else {
+      dropdown.style.display = "block";
+    }
   }
 
   // Close the dropdown if the user clicks outside of it
   window.onclick = function(event) {
-    if (!event.target.matches('.dropdown-btn')) {
+    if (!event.target.matches('.dropbtn')) {
       var dropdowns = document.getElementsByClassName("dropdown-content");
       var i;
       for (i = 0; i < dropdowns.length; i++) {
         var openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains('show')) {
-          openDropdown.classList.remove('show');
+        if (openDropdown.style.display === "block") {
+          openDropdown.style.display = "none";
         }
       }
     }
